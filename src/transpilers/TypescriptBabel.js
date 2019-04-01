@@ -24,7 +24,7 @@ class TypescriptBabel extends AbstractTranspiler {
   }
 
   getDisplayName() {
-    return '@babel/register (faster but has drawbacks)';
+    return '@babel/register';
   }
 
   getExtensions() {

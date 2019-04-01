@@ -12,7 +12,7 @@ class TypescriptTsNode extends AbstractTranspiler {
   }
 
   getInstallGuide() {
-    return ['Run: npm install -D typescript ts-node'];
+    return ['Run: npm install -D typescript ts-node@5'];
   }
 
   tryInitialize() {

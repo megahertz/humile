@@ -10,6 +10,9 @@ class Options {
 
     this.noGlobals = false;
 
+    /** @type {string[]} */
+    this.noParse = [];
+
     this.masks = [
       '**/*{[sS]pec,[T]est}.[jt]s?(x)',
       '!+(node_modules|dist)/**',
@@ -32,6 +35,9 @@ class Options {
 
     // noinspection JSUnresolvedVariable
     this.noGlobals = args.noglobals || args.G;
+
+    // noinspection JSUnresolvedVariable
+    this.noParse = getStringArray(args.noparse || args.n);
   }
 }
 

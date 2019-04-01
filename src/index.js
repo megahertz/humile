@@ -36,10 +36,15 @@ function main() {
 
   const jasmineFacade = new JasmineFacade();
 
-  const humile = new Humile(options, jasmineFacade, createTranspilerManager());
+  const humile = new Humile(options, jasmineFacade, createTranspilerManager({
+    noParse: options.noParse,
+  }));
+
   humile.exportGlobals(module.exports);
   !options.noGlobals && humile.exportGlobals(global);
+
   humile.addReporter(reporter);
+
   humile.start(files);
 }
 

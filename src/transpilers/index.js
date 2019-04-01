@@ -1,18 +1,18 @@
 'use strict';
 
+const NoParse           = require('./NoParse');
 const TranspilerManager = require('./TranspilerManager');
 const TypescriptBabel   = require('./TypescriptBabel');
 const TypescriptTsNode  = require('./TypescriptTsNode');
 
 module.exports = createTranspilerManager;
 
-function createTranspilerManager() {
-  const tsBabel = new TypescriptBabel();
-  const tsNode = new TypescriptTsNode();
+function createTranspilerManager({ noParse }) {
   const manager = new TranspilerManager();
 
-  manager.addTranspiler(tsBabel);
-  manager.addTranspiler(tsNode);
+  manager.addTranspiler(new TypescriptTsNode());
+  manager.addTranspiler(new TypescriptBabel());
+  manager.addTranspiler(new NoParse(noParse));
 
   return manager;
 }
