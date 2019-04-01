@@ -14,6 +14,7 @@ describe('transpilers/NoParse', () => {
     // eslint-disable-next-line global-require
     expect(require('./sample')).toEqual({ css: {} });
 
-    noParse.restore();
+    // noinspection JSDeprecatedSymbols
+    delete require.extensions['.css'];
   });
 });

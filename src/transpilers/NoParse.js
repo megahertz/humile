@@ -9,9 +9,7 @@ const AbstractTranspiler = require('./AbstractTranspiler');
 class NoParse extends AbstractTranspiler {
   constructor(extensions) {
     super();
-
     this.extensions = extensions || [];
-    this.registered = [];
   }
 
   getDisplayName() {
@@ -28,12 +26,6 @@ class NoParse extends AbstractTranspiler {
     ];
   }
 
-  restore() {
-    // noinspection JSDeprecatedSymbols
-    const extensions = require.extensions;
-    this.registered.forEach(ext => delete extensions[ext]);
-  }
-
   tryInitialize() {
     // noinspection JSDeprecatedSymbols
     const extensions = require.extensions;
@@ -41,7 +33,6 @@ class NoParse extends AbstractTranspiler {
     this.extensions.forEach((extension) => {
       if (!extensions[extension]) {
         extensions[extension] = () => {};
-        this.registered.push(extension);
       }
     });
 
