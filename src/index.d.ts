@@ -12,169 +12,20 @@
 //                 Domas Trijonis <https://github.com/fdim>
 //                 Peter Safranek <https://github.com/pe8ter>
 
-type ImplementationCallback = (() => PromiseLike<any>) | (() => void) | ((done: DoneFn) => void);
 
-/**
- * Create a group of specs (often called a suite).
- * @param description Textual description of the group
- * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
- */
-export function describe(description: string, specDefinitions: () => void): void;
+declare namespace humile {
+  /**
+   * Action method that should be called when the async work is complete.
+   */
+  interface DoneFn extends Function {
+    (): void;
 
-/**
- * A focused `describe`. If suites or specs are focused, only those that are focused will be executed.
- * @param description Textual description of the group
- * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
- */
-export function fdescribe(description: string, specDefinitions: () => void): void;
+    /** fails the spec and indicates that it has completed. If the message is an Error, Error.message is used */
+    fail: (message?: Error | string) => void;
+  }
 
-/**
- * A temporarily disabled `describe`. Specs within an xdescribe will be marked pending and not executed.
- * @param description Textual description of the group
- * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
- */
-export function xdescribe(description: string, specDefinitions: () => void): void;
+  type ImplementationCallback = (() => PromiseLike<any>) | (() => void) | ((done: DoneFn) => void);
 
-/**
- * Define a single spec. A spec should contain one or more expectations that test the state of the code.
- * A spec whose expectations all succeed will be passing and a spec with any failures will fail.
- * @param expectation Textual description of what this spec is checking
- * @param assertion Function that contains the code of your test. If not provided the test will be pending.
- * @param timeout Custom timeout for an async spec.
- */
-export function it(expectation: string, assertion?: ImplementationCallback, timeout?: number): void;
-
-/**
- * A focused `it`. If suites or specs are focused, only those that are focused will be executed.
- * @param expectation Textual description of what this spec is checking
- * @param assertion Function that contains the code of your test. If not provided the test will be pending.
- * @param timeout Custom timeout for an async spec.
- */
-export function fit(expectation: string, assertion?: ImplementationCallback, timeout?: number): void;
-
-/**
- * A temporarily disabled `it`. The spec will report as pending and will not be executed.
- * @param expectation Textual description of what this spec is checking
- * @param assertion Function that contains the code of your test. If not provided the test will be pending.
- * @param timeout Custom timeout for an async spec.
- */
-export function xit(expectation: string, assertion?: ImplementationCallback, timeout?: number): void;
-
-/**
- * Mark a spec as pending, expectation results will be ignored.
- * If you call the function pending anywhere in the spec body, no matter the expectations, the spec will be marked pending.
- * @param reason Reason the spec is pending.
- */
-export function pending(reason?: string): void;
-
-/**
- * Run some shared setup before each of the specs in the describe in which it is called.
- * @param action Function that contains the code to setup your specs.
- * @param timeout Custom timeout for an async beforeEach.
- */
-export function beforeEach(action: ImplementationCallback, timeout?: number): void;
-
-/**
- * Run some shared teardown after each of the specs in the describe in which it is called.
- * @param action Function that contains the code to teardown your specs.
- * @param timeout Custom timeout for an async afterEach.
- */
-export function afterEach(action: ImplementationCallback, timeout?: number): void;
-
-/**
- * Run some shared setup once before all of the specs in the describe are run.
- * Note: Be careful, sharing the setup from a beforeAll makes it easy to accidentally leak state between your specs so that they erroneously pass or fail.
- * @param action Function that contains the code to setup your specs.
- * @param timeout Custom timeout for an async beforeAll.
- */
-export function beforeAll(action: ImplementationCallback, timeout?: number): void;
-
-/**
- * Run some shared teardown once before all of the specs in the describe are run.
- * Note: Be careful, sharing the teardown from a afterAll makes it easy to accidentally leak state between your specs so that they erroneously pass or fail.
- * @param action Function that contains the code to teardown your specs.
- * @param timeout Custom timeout for an async afterAll
- */
-export function afterAll(action: ImplementationCallback, timeout?: number): void;
-
-/**
- * Create an expectation for a spec.
- * @checkReturnValue see https://tsetse.info/check-return-value
- * @param spy
- */
-export function expect(spy: Function): jasmine.Matchers<any>;
-
-/**
- * Create an expectation for a spec.
- * @checkReturnValue see https://tsetse.info/check-return-value
- * @param actual
- */
-export function expect<T>(actual: ArrayLike<T>): jasmine.ArrayLikeMatchers<T>;
-
-/**
- * Create an expectation for a spec.
- * @checkReturnValue see https://tsetse.info/check-return-value
- * @param actual Actual computed value to test expectations against.
- */
-export function expect<T>(actual: T): jasmine.Matchers<T>;
-
-/**
- * Create an expectation for a spec.
- */
-export function expect(): jasmine.NothingMatcher;
-
-/**
- * Create an asynchronous expectation for a spec. Note that the matchers
- * that are provided by an asynchronous expectation all return promises
- * which must be either returned from the spec or waited for using `await`
- * in order for Jasmine to associate them with the correct spec.
- * @checkReturnValue see https://tsetse.info/check-return-value
- * @param actual - Actual computed value to test expectations against.
- */
-export function expectAsync<T, U>(actual: PromiseLike<T>): jasmine.AsyncMatchers<T, U>;
-
-/**
- * Explicitly mark a spec as failed.
- * @param e Reason for the failure
- */
-export function fail(e?: any): void;
-
-/**
- * Action method that should be called when the async work is complete.
- */
-interface DoneFn extends Function {
-  (): void;
-
-  /** fails the spec and indicates that it has completed. If the message is an Error, Error.message is used */
-  fail: (message?: Error | string) => void;
-}
-
-/**
- * Install a spy onto an existing object.
- * @param object The object upon which to install the `Spy`.
- * @param method The name of the method to replace with a `Spy`.
- */
-declare function spyOn<T>(object: T, method: keyof T): jasmine.Spy;
-
-/**
- * Install a spy on a property installed with `Object.defineProperty` onto an existing object.
- * @param object The object upon which to install the `Spy`.
- * @param property The name of the property to replace with a `Spy`.
- * @param accessType The access type (get|set) of the property to `Spy` on.
- */
-declare function spyOnProperty<T>(object: T, property: keyof T, accessType?: 'get' | 'set'): jasmine.Spy;
-
-/**
- * Installs spies on all writable and configurable properties of an object.
- * @param object The object upon which to install the `Spy`s.
- */
-declare function spyOnAllFunctions(object: object): jasmine.Spy;
-
-declare function runs(asyncMethod: Function): void;
-declare function waitsFor(latchMethod: () => boolean, failureMessage?: string, timeout?: number): void;
-declare function waits(timeout?: number): void;
-
-declare namespace jasmine {
   type Expected<T> = T | ObjectContaining<T> | Any | Spy;
   type SpyObjMethodNames<T = undefined> =
     T extends undefined ?
@@ -809,4 +660,176 @@ declare namespace jasmine {
    * Set this to a lower value to speed up pretty printing if you have large objects.
    */
   var MAX_PRETTY_PRINT_DEPTH: number;
+}
+
+declare module 'humile' {
+
+  /**
+   * Create a group of specs (often called a suite).
+   * @param description Textual description of the group
+   * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
+   */
+  export function describe(
+    description: string, specDefinitions: () => void): void;
+
+  /**
+   * A focused `describe`. If suites or specs are focused, only those that are focused will be executed.
+   * @param description Textual description of the group
+   * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
+   */
+  export function fdescribe(
+    description: string, specDefinitions: () => void): void;
+
+  /**
+   * A temporarily disabled `describe`. Specs within an xdescribe will be marked pending and not executed.
+   * @param description Textual description of the group
+   * @param specDefinitions Function for Jasmine to invoke that will define inner suites a specs
+   */
+  export function xdescribe(
+    description: string, specDefinitions: () => void): void;
+
+  /**
+   * Define a single spec. A spec should contain one or more expectations that test the state of the code.
+   * A spec whose expectations all succeed will be passing and a spec with any failures will fail.
+   * @param expectation Textual description of what this spec is checking
+   * @param assertion Function that contains the code of your test. If not provided the test will be pending.
+   * @param timeout Custom timeout for an async spec.
+   */
+  export function it(
+    expectation: string, assertion?: ImplementationCallback,
+    timeout?: number): void;
+
+  /**
+   * A focused `it`. If suites or specs are focused, only those that are focused will be executed.
+   * @param expectation Textual description of what this spec is checking
+   * @param assertion Function that contains the code of your test. If not provided the test will be pending.
+   * @param timeout Custom timeout for an async spec.
+   */
+  export function fit(
+    expectation: string, assertion?: ImplementationCallback,
+    timeout?: number): void;
+
+  /**
+   * A temporarily disabled `it`. The spec will report as pending and will not be executed.
+   * @param expectation Textual description of what this spec is checking
+   * @param assertion Function that contains the code of your test. If not provided the test will be pending.
+   * @param timeout Custom timeout for an async spec.
+   */
+  export function xit(
+    expectation: string, assertion?: ImplementationCallback,
+    timeout?: number): void;
+
+  /**
+   * Mark a spec as pending, expectation results will be ignored.
+   * If you call the function pending anywhere in the spec body, no matter the expectations, the spec will be marked pending.
+   * @param reason Reason the spec is pending.
+   */
+  export function pending(reason?: string): void;
+
+  /**
+   * Run some shared setup before each of the specs in the describe in which it is called.
+   * @param action Function that contains the code to setup your specs.
+   * @param timeout Custom timeout for an async beforeEach.
+   */
+  export function beforeEach(
+    action: ImplementationCallback, timeout?: number): void;
+
+  /**
+   * Run some shared teardown after each of the specs in the describe in which it is called.
+   * @param action Function that contains the code to teardown your specs.
+   * @param timeout Custom timeout for an async afterEach.
+   */
+  export function afterEach(
+    action: ImplementationCallback, timeout?: number): void;
+
+  /**
+   * Run some shared setup once before all of the specs in the describe are run.
+   * Note: Be careful, sharing the setup from a beforeAll makes it easy to accidentally leak state between your specs so that they erroneously pass or fail.
+   * @param action Function that contains the code to setup your specs.
+   * @param timeout Custom timeout for an async beforeAll.
+   */
+  export function beforeAll(
+    action: ImplementationCallback, timeout?: number): void;
+
+  /**
+   * Run some shared teardown once before all of the specs in the describe are run.
+   * Note: Be careful, sharing the teardown from a afterAll makes it easy to accidentally leak state between your specs so that they erroneously pass or fail.
+   * @param action Function that contains the code to teardown your specs.
+   * @param timeout Custom timeout for an async afterAll
+   */
+  export function afterAll(
+    action: ImplementationCallback, timeout?: number): void;
+
+  /**
+   * Create an expectation for a spec.
+   * @checkReturnValue see https://tsetse.info/check-return-value
+   * @param spy
+   */
+  export function expect(spy: Function): humile.Matchers<any>;
+
+  /**
+   * Create an expectation for a spec.
+   * @checkReturnValue see https://tsetse.info/check-return-value
+   * @param actual
+   */
+  export function expect<T>(actual: ArrayLike<T>): humile.ArrayLikeMatchers<T>;
+
+  /**
+   * Create an expectation for a spec.
+   * @checkReturnValue see https://tsetse.info/check-return-value
+   * @param actual Actual computed value to test expectations against.
+   */
+  export function expect<T>(actual: T): humile.Matchers<T>;
+
+  /**
+   * Create an expectation for a spec.
+   */
+  export function expect(): humile.NothingMatcher;
+
+  /**
+   * Create an asynchronous expectation for a spec. Note that the matchers
+   * that are provided by an asynchronous expectation all return promises
+   * which must be either returned from the spec or waited for using `await`
+   * in order for Jasmine to associate them with the correct spec.
+   * @checkReturnValue see https://tsetse.info/check-return-value
+   * @param actual - Actual computed value to test expectations against.
+   */
+  export function expectAsync<T, U>(actual: PromiseLike<T>): humile.AsyncMatchers<T, U>;
+
+  /**
+   * Explicitly mark a spec as failed.
+   * @param e Reason for the failure
+   */
+  export function fail(e?: any): void;
+
+  /**
+   * Install a spy onto an existing object.
+   * @param object The object upon which to install the `Spy`.
+   * @param method The name of the method to replace with a `Spy`.
+   */
+  export function spyOn<T>(object: T, method: keyof T): humile.Spy;
+
+  /**
+   * Install a spy on a property installed with `Object.defineProperty` onto an existing object.
+   * @param object The object upon which to install the `Spy`.
+   * @param property The name of the property to replace with a `Spy`.
+   * @param accessType The access type (get|set) of the property to `Spy` on.
+   */
+  export function spyOnProperty<T>(
+    object: T, property: keyof T, accessType?: 'get' | 'set'): humile.Spy;
+
+  /**
+   * Installs spies on all writable and configurable properties of an object.
+   * @param object The object upon which to install the `Spy`s.
+   */
+  export function spyOnAllFunctions(object: object): humile.Spy;
+
+  export function runs(asyncMethod: Function): void;
+
+  export function waitsFor(
+    latchMethod: () => boolean, failureMessage?: string,
+    timeout?: number): void;
+
+  export function waits(timeout?: number): void;
+
 }

@@ -1,11 +1,11 @@
 'use strict';
 
-var glob       = require('glob');
-var FileFinder = require('./FileFinder');
+const glob       = require('glob');
+const FileFinder = require('./FileFinder');
 
-describe('FileFinder', function () {
-  it('should find all specs in tools folder', function () {
-    var finder = new FileFinder(glob, __dirname);
+describe('FileFinder', () => {
+  it('should find all specs in tools folder', () => {
+    const finder = new FileFinder(glob, __dirname);
 
     expect(finder.find(['**/*.spec.js'])).toEqual([
       'FileFinder.spec.js',

@@ -1,32 +1,22 @@
 'use strict';
 
-module.exports = Options;
+class Options {
+  /**
+   * @param {{_: string[]} & Object<string, string | boolean>} [args]
+   */
+  constructor(args) {
+    /** @type {string[]|void} */
+    this.require = null;
 
-/**
- * Options holder
- * @param {{_: string[]} & Object<string, string | boolean>} [args]
- * @constructor
- */
-function Options(args) {
-  this.masks = [
-    '**/*{[sS]pec,[T]est}.[jt]s?(x)',
-    '!+(node_modules|dist)/**',
-  ];
+    this.noGlobals = false;
 
-  this.load(args || {});
-}
+    this.masks = [
+      '**/*{[sS]pec,[T]est}.[jt]s?(x)',
+      '!+(node_modules|dist)/**',
+    ];
 
-// noinspection JSAnnotator
-Options.prototype = {
-  /** @type {string[]} */
-  masks: null,
-
-  /** @type {string[]|void} */
-  require: null,
-
-  noGlobals: false,
-
-  constructor: Options,
+    this.load(args || {});
+  }
 
   /**
    * Load options from args object
@@ -42,8 +32,10 @@ Options.prototype = {
 
     // noinspection JSUnresolvedVariable
     this.noGlobals = args.noglobals || args.G;
-  },
-};
+  }
+}
+
+module.exports = Options;
 
 function getStringArray(value) {
   if (!value) {
@@ -54,5 +46,5 @@ function getStringArray(value) {
     value = [value];
   }
 
-  return value.filter(function (item) { return typeof item === 'string' });
+  return value.filter(item => typeof item === 'string');
 }

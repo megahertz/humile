@@ -1,19 +1,22 @@
 'use strict';
 
-var Options = require('./Options');
+const Options = require('./Options');
 
-describe('Options', function () {
-  it('should use default values', function () {
-    var options = new Options();
+describe('Options', () => {
+  it('should use default values', () => {
+    const options = new Options();
     expect(options.masks).toEqual([
       '**/*{[sS]pec,[T]est}.[jt]s?(x)',
       '!+(node_modules|dist)/**',
     ]);
   });
 
-  it('should load values', function () {
+  it('should load values', () => {
     // noinspection JSCheckFunctionSignatures
-    var options = new Options({ _: ['unit/*.test.ts'], r: 'ts-node/register' });
+    const options = new Options({
+      _: ['unit/*.test.ts'],
+      r: 'ts-node/register',
+    });
 
     expect(options.masks).toEqual(['unit/*.test.ts']);
     expect(options.require).toEqual(['ts-node/register']);

@@ -16,12 +16,10 @@ Features:
  - zero config
  - no globals (optional)
  - typescript ready
- - old node.js support (down to 0.12)
  
 Todo:
 
  - New reporter (now it uses reporter from jasmine-node)
- - Promise matches
  - Add TDD interface (additional to BDD)
  - Full doc and examples
  - Tests generator (maybe) 

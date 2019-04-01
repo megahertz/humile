@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = parseConsoleArgs;
 
 /**
@@ -11,24 +10,27 @@ module.exports = parseConsoleArgs;
 function parseConsoleArgs(argv) {
   argv = Array.isArray(argv) ? argv : process.argv.slice(2);
 
-  var key;
-  return argv.reduce(function (res, arg) {
+  let key;
+  return argv.reduce((res, arg) => {
     if (arg.indexOf('-') === 0) {
       key = arg.replace(/^-+/, '');
 
       if (key.indexOf('=') > 0) {
-        var pair = key.split('=', 2).map(function (s) { return s.trim() });
+        const [k, v] = key.split('=', 2).map(s => s.trim());
         key = null;
-        res[pair[0]] = pair[1];
-        return res;
+        return { ...res, [k]: v };
       }
 
-      res[key] = true;
-      return res;
+      return { ...res, [key]: res[key] || true };
     }
 
     if (key) {
-      res[key] = arg.trim();
+      if (!res[key] || res[key] === true) {
+        res[key] = arg.trim();
+      } else {
+        res[key] = [].concat(res[key]).concat(arg.trim());
+      }
+
       key = null;
     } else {
       res._.push(arg.trim());

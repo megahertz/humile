@@ -1,43 +1,31 @@
 'use strict';
 
-var jasmineRequire = require('jasmine-core');
+const jasmineRequire = require('jasmine-core');
 
-module.exports = JasmineFacade;
+class JasmineFacade {
+  constructor() {
+    this.jasmine = jasmineRequire.core(jasmineRequire);
 
-function JasmineFacade() {
-  this.jasmine = jasmineRequire.core(jasmineRequire);
-  this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
-  this.jasmineInterface = jasmineRequire.interface(this.jasmine, this.env);
-}
+    /** @type {humile.Env} */
+    this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
 
-// noinspection JSAnnotator
-JasmineFacade.prototype = {
-  /** @type {jasmine.Env} */
-  env: undefined,
-  jasmine: undefined,
-  jasmineInterface: undefined,
-
-  constructor: JasmineFacade,
+    this.jasmineInterface = jasmineRequire.interface(this.jasmine, this.env);
+  }
 
   /**
-   * @param {jasmine.CustomReporter} reporter
+   * @param {humile.CustomReporter} reporter
    */
   addReporter(reporter) {
     this.env.addReporter(reporter);
-  },
+  }
 
   execute() {
     this.env.execute();
-  },
+  }
 
   exportGlobals(object) {
-    var src = this.jasmineInterface;
+    return Object.assign(object, this.jasmineInterface);
+  }
+}
 
-    for (var property in src) {
-      if (!src.hasOwnProperty(property)) continue;
-      object[property] = src[property];
-    }
-
-    return object;
-  },
-};
+module.exports = JasmineFacade;
