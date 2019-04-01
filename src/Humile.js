@@ -13,6 +13,8 @@ Humile.prototype = {
 
   /** @type {JasmineFacade} */
   jasmine: undefined,
+
+  /** @type {Options} */
   options: undefined,
 
   constructor: Humile,
@@ -34,21 +36,22 @@ Humile.prototype = {
   },
 
   start(files) {
-    files.forEach(this.requireFile, this);
+    this.options.require.forEach(this.requireModule, this);
+    files.forEach(this.requireModule, this);
     this.subscribeToJasmineEvents();
     this.jasmine.execute();
   },
 
   /**
    * @private
-   * @param {string} file
+   * @param {string} module
    */
-  requireFile(file) {
+  requireModule(module) {
     try {
-      require(file);
+      require(module);
     } catch (e) {
       this.hasErrors = true;
-      console.warn('Cannot load spec ' + e.stack || e.message);
+      throw e;
     }
   },
 

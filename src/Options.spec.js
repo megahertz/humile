@@ -16,6 +16,6 @@ describe('Options', function () {
     var options = new Options({ _: ['unit/*.test.ts'], r: 'ts-node/register' });
 
     expect(options.masks).toEqual(['unit/*.test.ts']);
-    expect(options.require).toEqual('ts-node/register');
+    expect(options.require).toEqual(['ts-node/register']);
   });
 });

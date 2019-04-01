@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/humile.svg)](https://badge.fury.io/js/humile)
 [![Dependencies status](https://david-dm.org/megahertz/humile/status.svg)](https://david-dm.org/megahertz/humile)
 
-Make Jasmine great again!
+Make Jasmine Great Again!
 
 ## Description
 

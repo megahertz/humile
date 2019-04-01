@@ -18,8 +18,12 @@ function Options(args) {
 
 // noinspection JSAnnotator
 Options.prototype = {
-  masks: undefined,
-  require: undefined,
+  /** @type {string[]} */
+  masks: null,
+
+  /** @type {string[]|void} */
+  require: null,
+
   noGlobals: false,
 
   constructor: Options,
@@ -34,9 +38,21 @@ Options.prototype = {
     }
 
     // noinspection JSUnresolvedVariable
-    this.require = args.require || args.r;
+    this.require = getStringArray(args.require || args.r);
 
     // noinspection JSUnresolvedVariable
     this.noGlobals = args.noglobals || args.G;
   },
 };
+
+function getStringArray(value) {
+  if (!value) {
+    return [];
+  }
+
+  if (!Array.isArray(value)) {
+    value = [value];
+  }
+
+  return value.filter(function (item) { return typeof item === 'string' });
+}
