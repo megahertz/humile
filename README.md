@@ -20,7 +20,6 @@ Features:
 Todo:
 
  - New reporter (now it uses reporter from jasmine-node)
- - Add TDD interface (additional to BDD)
  - Full doc and examples
  - Tests generator (maybe) 
 

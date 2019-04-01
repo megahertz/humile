@@ -10,6 +10,7 @@ class JasmineFacade {
     this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
 
     this.jasmineInterface = jasmineRequire.interface(this.jasmine, this.env);
+    this.registerAliases(this.jasmineInterface);
   }
 
   /**
@@ -25,6 +26,12 @@ class JasmineFacade {
 
   exportGlobals(object) {
     return Object.assign(object, this.jasmineInterface);
+  }
+
+  registerAliases(jasmineInterface) {
+    jasmineInterface.before = jasmineInterface.beforeAll;
+    jasmineInterface.after  = jasmineInterface.afterAll;
+    jasmineInterface.test   = jasmineInterface.it;
   }
 }
 

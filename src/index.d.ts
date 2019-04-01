@@ -696,7 +696,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async spec.
    */
   export function it(
-    expectation: string, assertion?: ImplementationCallback,
+    expectation: string, assertion?: humile.ImplementationCallback,
     timeout?: number): void;
 
   /**
@@ -706,7 +706,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async spec.
    */
   export function fit(
-    expectation: string, assertion?: ImplementationCallback,
+    expectation: string, assertion?: humile.ImplementationCallback,
     timeout?: number): void;
 
   /**
@@ -716,7 +716,17 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async spec.
    */
   export function xit(
-    expectation: string, assertion?: ImplementationCallback,
+    expectation: string, assertion?: humile.ImplementationCallback,
+    timeout?: number): void;
+
+  /**
+   * Shortcut for it()
+   * @param expectation Textual description of what this test is checking
+   * @param assertion Function that contains the code of your test. If not provided the test will be pending.
+   * @param timeout Custom timeout for an async spec.
+   */
+  export function test(
+    expectation: string, assertion?: humile.ImplementationCallback,
     timeout?: number): void;
 
   /**
@@ -732,7 +742,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async beforeEach.
    */
   export function beforeEach(
-    action: ImplementationCallback, timeout?: number): void;
+    action: humile.ImplementationCallback, timeout?: number): void;
 
   /**
    * Run some shared teardown after each of the specs in the describe in which it is called.
@@ -740,7 +750,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async afterEach.
    */
   export function afterEach(
-    action: ImplementationCallback, timeout?: number): void;
+    action: humile.ImplementationCallback, timeout?: number): void;
 
   /**
    * Run some shared setup once before all of the specs in the describe are run.
@@ -749,7 +759,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async beforeAll.
    */
   export function beforeAll(
-    action: ImplementationCallback, timeout?: number): void;
+    action: humile.ImplementationCallback, timeout?: number): void;
 
   /**
    * Run some shared teardown once before all of the specs in the describe are run.
@@ -758,7 +768,7 @@ declare module 'humile' {
    * @param timeout Custom timeout for an async afterAll
    */
   export function afterAll(
-    action: ImplementationCallback, timeout?: number): void;
+    action: humile.ImplementationCallback, timeout?: number): void;
 
   /**
    * Create an expectation for a spec.
