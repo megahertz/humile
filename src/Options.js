@@ -42,7 +42,7 @@ class Options {
     this.noGlobals = args.noglobals || args.G;
 
     // noinspection JSUnresolvedVariable
-    this.noParse = getStringArray(args.noparse || args.n);
+    this.noParse = getStringArray(args.noparse || args.P);
 
     // noinspection JSUnresolvedVariable
     this.require = getStringArray(args.require || args.r);

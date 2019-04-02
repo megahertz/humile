@@ -7,12 +7,17 @@ const TypescriptTsNode  = require('./TypescriptTsNode');
 
 module.exports = createTranspilerManager;
 
+module.exports = createTranspilerManager;
+
 function createTranspilerManager({ noParse }) {
   const manager = new TranspilerManager();
+  const noParseTranspiler = new NoParse(noParse);
 
   manager.addTranspiler(new TypescriptTsNode());
   manager.addTranspiler(new TypescriptBabel());
-  manager.addTranspiler(new NoParse(noParse));
+  manager.addTranspiler(noParseTranspiler);
+
+  noParseTranspiler.tryInitialize();
 
   return manager;
 }
