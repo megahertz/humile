@@ -1,6 +1,7 @@
 'use strict';
 
 const jasmineRequire = require('jasmine-core');
+const SpecFilter     = require('./SpecFilter');
 
 class JasmineFacade {
   constructor() {
@@ -32,6 +33,21 @@ class JasmineFacade {
     jasmineInterface.before = jasmineInterface.beforeAll;
     jasmineInterface.after  = jasmineInterface.afterAll;
     jasmineInterface.test   = jasmineInterface.it;
+  }
+
+  /**
+   * Set regexp string as a spec filter.
+   * @param {string} filter
+   * @returns {void}
+   */
+  setSpecFilter(filter) {
+    const specFilter = new SpecFilter(filter);
+
+    this.env.configure({
+      specFilter(spec) {
+        return specFilter.test(spec.getFullName());
+      },
+    });
   }
 }
 

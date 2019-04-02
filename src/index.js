@@ -35,6 +35,7 @@ function main() {
   });
 
   const jasmineFacade = new JasmineFacade();
+  options.filter && jasmineFacade.setSpecFilter(options.filter);
 
   const humile = new Humile(options, jasmineFacade, createTranspilerManager({
     noParse: options.noParse,
