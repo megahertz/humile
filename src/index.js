@@ -8,7 +8,7 @@ const util                    = require('util');
 const Humile                  = require('./Humile');
 const JasmineFacade           = require('./jasmine/JasmineFacade');
 const Options                 = require('./Options');
-const ConsoleReporter         = require('./reporters/ConsoleReporter');
+const createReporter          = require('./reporters');
 const FileFinder              = require('./tools/FileFinder');
 const parseConsoleArgs        = require('./tools/parseConsoleArgs');
 const createTranspilerManager = require('./transpilers');
@@ -28,9 +28,8 @@ function main() {
   const files = finder.find(options.masks)
     .map(file => path.join(process.cwd(), file));
 
-  const reporter = new ConsoleReporter();
-  reporter.setOptions({
-    print,
+  const reporter = createReporter(options.reporter, {
+    stream: process.stderr,
     showColors: process.stdout.isTTY,
   });
 
@@ -47,8 +46,4 @@ function main() {
   humile.addReporter(reporter);
 
   humile.start(files);
-}
-
-function print(...args) {
-  process.stdout.write(util.format(...args));
 }

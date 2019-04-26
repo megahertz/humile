@@ -1,15 +1,16 @@
 /* eslint-disable */
 
-module.exports = ConsoleReporter;
+const util = require('util');
+
+module.exports = exports = JasmineReporter;
 
 var noopTimer = {
   start: function(){},
   elapsed: function(){ return 0; }
 };
 
-function ConsoleReporter() {
-  var print = function() {},
-    showColors = false,
+function JasmineReporter(constructorOptions) {
+  var showColors = false,
     timer = noopTimer,
     jasmineCorePath = null,
     specCount,
@@ -27,9 +28,6 @@ function ConsoleReporter() {
     stackFilter = defaultStackFilter;
 
   this.setOptions = function(options) {
-    if (options.print) {
-      print = options.print;
-    }
     showColors = options.showColors || false;
     if (options.timer) {
       timer = options.timer;
@@ -46,6 +44,10 @@ function ConsoleReporter() {
     specCount = 0;
     executableSpecCount = 0;
     failureCount = 0;
+    if (options && options.order && options.order.random) {
+      print('Randomized with seed ' + options.order.seed);
+      printNewline();
+    }
     print('Started');
     printNewline();
     timer.start();
@@ -104,6 +106,12 @@ function ConsoleReporter() {
       print('Incomplete: ' + result.incompleteReason);
       printNewline();
     }
+
+    if (result && result.order && result.order.random) {
+      print('Randomized with seed ' + result.order.seed);
+      print(' (jasmine --random=true --seed=' + result.order.seed + ')');
+      printNewline();
+    }
   };
 
   this.specDone = function(result) {
@@ -136,6 +144,10 @@ function ConsoleReporter() {
       failedSuites.push(result);
     }
   };
+
+  if (constructorOptions) {
+    this.setOptions(constructorOptions);
+  }
 
   return this;
 
@@ -220,5 +232,9 @@ function ConsoleReporter() {
     }
     print(indent(colored('yellow', pendingReason), 2));
     printNewline();
+  }
+
+  function print() {
+    constructorOptions.stream.write(util.format(...arguments));
   }
 }

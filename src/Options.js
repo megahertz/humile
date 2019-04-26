@@ -5,7 +5,6 @@ class Options {
    * @param {{_: string[]} & Object<string, string | boolean>} [args]
    */
   constructor(args) {
-    /** @type {string} */
     this.filter = '';
 
     /** @type {string[]} */
@@ -14,11 +13,12 @@ class Options {
       '!+(node_modules|dist)/**',
     ];
 
-    /** @type {boolean} */
     this.noGlobals = false;
 
     /** @type {string[]} */
     this.noParse = [];
+
+    this.reporter = 'default';
 
     /** @type {string[]|void} */
     this.require = null;
@@ -43,6 +43,9 @@ class Options {
 
     // noinspection JSUnresolvedVariable
     this.noParse = getStringArray(args.noparse || args.P);
+
+    // noinspection JSUnresolvedVariable
+    this.reporter = args.reporter || 'default';
 
     // noinspection JSUnresolvedVariable
     this.require = getStringArray(args.require || args.r);
