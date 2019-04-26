@@ -19,10 +19,18 @@ class TypescriptTsNode extends AbstractTranspiler {
     try {
       // eslint-disable-next-line
       require('ts-node/register');
-      return true;
     } catch (e) {
       return false;
     }
+
+    try {
+      // eslint-disable-next-line
+      require('tsconfig-paths/register');
+    } catch (e) {
+      // it's optional dependency
+    }
+
+    return true;
   }
 }
 
