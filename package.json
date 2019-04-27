@@ -10,8 +10,9 @@
   },
   "typings": "src/index.d.ts",
   "repository": "megahertz/humile",
-  "masks": [
-    "src/*"
+  "files": [
+    "src/*",
+    "!src/**/*.spec.js"
   ],
   "keywords": [
     "test",
