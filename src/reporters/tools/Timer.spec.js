@@ -1,5 +1,6 @@
 'use strict';
 
+const { describe, it, expect } = require('../..');
 const Timer = require('./Timer');
 
 describe('reporter/tools/Timer', () => {

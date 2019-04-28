@@ -38,22 +38,18 @@ class DefaultReporter {
     };
   }
 
-  /**
-   * @protected
-   */
   jasmineStarted() {
     this.stats = new SpecStats();
   }
 
-  /**
-   * @protected
-   */
   jasmineDone(result) {
     const { builders, printer, stats } = this;
 
     stats.stopTimer();
 
-    printer.writeLn('');
+    if (builders.spec !== builders.none) {
+      printer.writeLn('');
+    }
 
     if (stats.failedSpecs.length > 0 && builders.failedSpec !== builders.none) {
       printer.writeLn('Failures:');
@@ -75,9 +71,6 @@ class DefaultReporter {
     printer.batch(builders.incomplete(result));
   }
 
-  /**
-   * @protected
-   */
   specDone(result) {
     this.stats.specCount++;
 
@@ -90,9 +83,6 @@ class DefaultReporter {
     this.printer.batch(this.builders.spec(result));
   }
 
-  /**
-   * @protected
-   */
   suiteDone(result) {
     if (result.failedExpectations && result.failedExpectations.length > 0) {
       this.stats.failedSuites.push(result);

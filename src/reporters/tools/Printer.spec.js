@@ -1,6 +1,7 @@
 'use strict';
 
-const Printer = require('./Printer');
+const { describe, it, expect } = require('../..');
+const Printer                  = require('./Printer');
 
 describe('Printer', () => {
   it('should write a single string', () => {
@@ -17,7 +18,7 @@ describe('Printer', () => {
 
   it('should write multiline with indent', () => {
     const printer = createPrinter();
-    printer.writeLn('line1\nline2', { indent: 2});
+    printer.writeLn('line1\nline2', { indent: 2 });
     expect(printer.stream.content.split('\n')).toEqual([
       '    line1',
       '    line2',

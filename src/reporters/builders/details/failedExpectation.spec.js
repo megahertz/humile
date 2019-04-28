@@ -1,5 +1,6 @@
 'use strict';
 
+const { describe, it, expect } = require('../../..');
 const failedExpectationBuilder = require('./failedExpectation');
 
 describe('failedExpectationBuilder', () => {

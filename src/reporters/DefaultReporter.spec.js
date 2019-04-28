@@ -1,5 +1,7 @@
 'use strict';
 
+const { describe, it, expect } = require('..');
+
 const DefaultReporter = require('./DefaultReporter');
 const Printer         = require('./tools/Printer');
 

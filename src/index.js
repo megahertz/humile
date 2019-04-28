@@ -4,7 +4,6 @@
 
 const glob                    = require('glob');
 const path                    = require('path');
-const util                    = require('util');
 const Humile                  = require('./Humile');
 const JasmineFacade           = require('./jasmine/JasmineFacade');
 const Options                 = require('./Options');
@@ -17,9 +16,7 @@ module.exports = {
   Humile,
 };
 
-if (require.main === module) {
-  main();
-}
+main();
 
 function main() {
   const options = new Options(parseConsoleArgs());
@@ -45,5 +42,9 @@ function main() {
 
   humile.addReporter(reporter);
 
-  humile.start(files);
+  if (require.main === module) {
+    humile.start(files);
+  } else {
+    setTimeout(() => humile.start([]), 10);
+  }
 }

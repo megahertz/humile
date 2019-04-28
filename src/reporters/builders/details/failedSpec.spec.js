@@ -1,6 +1,7 @@
 'use strict';
 
-const failedSpecBuilder = require('./failedSpec');
+const { describe, it, expect } = require('../../..');
+const failedSpecBuilder        = require('./failedSpec');
 
 describe('failedSpecBuilder', () => {
   it('should build failed spec data', () => {
