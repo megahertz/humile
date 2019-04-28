@@ -6,10 +6,15 @@ class Printer {
     this.stream = null;
 
     this.colors = {
-      green: '\x1B[32m',
-      red: '\x1B[31m',
-      yellow: '\x1B[33m',
-      none: '\x1B[0m',
+      unset: '\x1b[0m',
+      black: '\x1b[30m',
+      red: '\x1b[31m',
+      green: '\x1b[32m',
+      yellow: '\x1b[33m',
+      blue: '\x1b[34m',
+      magenta: '\x1b[35m',
+      cyan: '\x1b[36m',
+      white: '\x1b[37m',
     };
 
     this.showColors = true;
@@ -17,6 +22,22 @@ class Printer {
     Object.assign(this, options);
 
     this.showColors = this.showColors && this.stream && this.stream.isTTY;
+  }
+
+  /**
+   * Print multiple items
+   * @param {object[]|{ text: string, options: any }} data
+   * @return {void}
+   */
+  batch(data) {
+    if (Array.isArray(data)) {
+      data.forEach(this.batch, this);
+      return;
+    }
+
+    if (data && data.text) {
+      this.write(data.text, data.options || {});
+    }
   }
 
   /**
@@ -41,7 +62,7 @@ class Printer {
 
     if (options.color && this.showColors) {
       const startColor = this.colors[options.color] || '';
-      value = startColor + value + this.colors.none;
+      value = startColor + value + this.colors.unset;
     }
 
     if (options.newLine) {

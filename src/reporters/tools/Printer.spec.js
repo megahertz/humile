@@ -29,7 +29,7 @@ describe('Printer', () => {
     const printer = createPrinter();
     printer.write('test', { color: 'red' });
     expect(printer.stream.content)
-      .toEqual(printer.colors.red + 'test' + printer.colors.none);
+      .toEqual(printer.colors.red + 'test' + printer.colors.unset);
   });
 });
 

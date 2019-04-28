@@ -1,15 +1,20 @@
 'use strict';
 
-const Printer   = require('./tools/Printer');
-const SpecStats = require('./tools/SpecStats');
-
-const STATUS_MAP = {
-  passed:  { char: '.', color: 'green' },
-  pending: { char: '*', color: 'yellow' },
-  failed:  { char: 'F', color: 'red' },
-};
+const failedSpecBuilder  = require('./builders/details/failedSpec');
+const failedSuiteBuilder = require('./builders/details/failedSuite');
+const pendingSpecBuilder = require('./builders/details/pendingSpec');
+const specBuilder        = require('./builders/spec/line');
+const incompleteBuilder  = require('./builders/incomplete');
+const totalBuilder       = require('./builders/total');
+const Printer            = require('./tools/Printer');
+const SpecStats          = require('./tools/SpecStats');
 
 class DefaultReporter {
+  /**
+   * @param {object}         options
+   * @param {WritableStream} options.stream
+   * @param {boolean}        options.showColors
+   */
   constructor(options) {
     /** @type {SpecStats} */
     this.stats = new SpecStats();
@@ -20,38 +25,59 @@ class DefaultReporter {
       showColors: options.showColors,
     });
 
-    /** @type {string} */
-    this.jasmineCorePath = '';
-
     Object.assign(this, options);
+
+    this.builders = {
+      failedSpec: failedSpecBuilder(),
+      failedSuite: failedSuiteBuilder(),
+      incomplete: incompleteBuilder(),
+      none: () => [],
+      pendingSpec: pendingSpecBuilder(),
+      spec: specBuilder(),
+      total: totalBuilder(),
+    };
   }
 
+  /**
+   * @protected
+   */
   jasmineStarted() {
     this.stats = new SpecStats();
   }
 
+  /**
+   * @protected
+   */
   jasmineDone(result) {
-    this.stats.stopTimer();
+    const { builders, printer, stats } = this;
 
-    this.printer.writeLn('');
+    stats.stopTimer();
 
-    if (this.stats.failedSpecs.length > 0) {
-      this.printer.writeLn('Failures:');
-      this.stats.failedSpecs.forEach(this.printSpecFailureDetails, this);
+    printer.writeLn('');
+
+    if (stats.failedSpecs.length > 0 && builders.failedSpec !== builders.none) {
+      printer.writeLn('Failures:');
+      printer.batch(stats.failedSpecs.map(builders.failedSpec));
     }
 
-    this.stats.failedSuites.forEach(this.printSuiteFailureDetails, this);
-    this.printSuiteFailureDetails(result);
-
-    if (this.stats.pendingSpecs.length > 0) {
-      this.printer.writeLn('Pending:');
-      this.stats.pendingSpecs.forEach(this.printPendingSpecDetails, this);
+    if (builders.failedSuite !== builders.none) {
+      printer.batch(stats.failedSuites.map(builders.failedSuite));
+      printer.batch(builders.failedSuite(result));
     }
 
-    this.printTotal();
-    this.printIncomplete(result);
+    if (stats.pendingSpecs.length > 0
+      && builders.pendingSpec !== builders.none) {
+      printer.writeLn('Pending:');
+      printer.batch(stats.pendingSpecs.map(builders.pendingSpec));
+    }
+
+    printer.batch(builders.total(stats));
+    printer.batch(builders.incomplete(result));
   }
 
+  /**
+   * @protected
+   */
   specDone(result) {
     this.stats.specCount++;
 
@@ -61,91 +87,15 @@ class DefaultReporter {
       this.stats.failedSpecs.push(result);
     }
 
-    this.printSpecDone(result);
+    this.printer.batch(this.builders.spec(result));
   }
 
+  /**
+   * @protected
+   */
   suiteDone(result) {
     if (result.failedExpectations && result.failedExpectations.length > 0) {
       this.stats.failedSuites.push(result);
-    }
-  }
-
-  stackFilter(stack) {
-    if (!this.jasmineCorePath) {
-      return stack;
-    }
-
-    return (stack || '')
-      .split('\n')
-      .filter(line => line.indexOf(this.jasmineCorePath) === -1)
-      .join('\n');
-  }
-
-  printSpecDone(result) {
-    const statusData = STATUS_MAP[result.status];
-    this.printer.write(statusData.char, { color: statusData.color });
-  }
-
-  printSpecFailureDetails(result, failedSpecNumber) {
-    this.printer.writeLn(`${failedSpecNumber + 1}) ${result.fullName}`);
-    this.printFailedExpectations(result);
-    this.printer.writeLn('');
-  }
-
-  printSuiteFailureDetails(result) {
-    const isResultEmpty = !result || !result.failedExpectations
-      || result.failedExpectations.length < 1;
-    if (isResultEmpty) {
-      return;
-    }
-
-    this.printer.writeLn(`Suite error ${result.fullName}`);
-    this.printFailedExpectations(result);
-    this.printer.writeLn('');
-  }
-
-  printPendingSpecDetails(result, pendingSpecNumber) {
-    this.printer.writeLn(`${pendingSpecNumber + 1}) ${result.fullName}`);
-    const reason = result.pendingReason || 'No reason given';
-    this.printer.writeLn(reason, { color: 'yellow', indent: 1 });
-    this.printer.writeLn('');
-  }
-
-  printFailedExpectations(result) {
-    result.failedExpectations.forEach((failed) => {
-      this.printer.writeLn('  Message:');
-      this.printer.writeLn(failed.message, { color: 'red', indent: 2 });
-      this.printer.writeLn('  Stack:');
-      this.printer.writeLn(this.stackFilter(failed.stack), { indent: 2 });
-    });
-  }
-
-  printTotal() {
-    const stats = this.stats;
-
-    if (stats.specCount < 1) {
-      this.printer.write('No specs found', { color: 'yellow' });
-      return;
-    }
-
-    this.printer.write(`${stats.passedCount} passed`, { color: 'green' });
-
-    if (stats.failedCount) {
-      this.printer.write(', ');
-      this.printer.write(`${stats.failedCount} failed`, { color: 'red' });
-    }
-
-    if (stats.pendingCount) {
-      this.printer.write(', ');
-      this.printer.write(`${stats.pendingCount} pending`, { color: 'yellow' });
-    }
-
-    this.printer.writeLn(` (${stats.elapsed})`);
-  }
-
-  printIncomplete(result) {
-    if (result && result.overallStatus === 'incomplete') {
-      this.printer.writeLn(`Incomplete: ${result.incompleteReason}`);
     }
   }
 }

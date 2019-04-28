@@ -4,20 +4,23 @@ const DefaultReporter = require('./DefaultReporter');
 const Printer         = require('./tools/Printer');
 
 describe('DefaultReporter', () => {
-  it('should print failed expectation', () => {
+  it('should print spec execution progress', () => {
     const reporter = createReporter();
-    reporter.printFailedExpectations({
-      failedExpectations: [{
-        message: 'test',
-        stack: 'stack trace',
-      }],
-    });
+    reporter.specDone({ status: 'passed' });
+    reporter.specDone({ status: 'failed' });
+    reporter.specDone({ status: 'pending' });
+
+    expect(reporter.printer.stream.content).toEqual('.F*');
+  });
+
+  it('should print results', () => {
+    const reporter = createReporter();
+    reporter.specDone({ status: 'passed' });
+    reporter.jasmineDone({ });
 
     expect(reporter.printer.stream.content.split('\n')).toEqual([
-      '  Message:',
-      '    test',
-      '  Stack:',
-      '    stack trace',
+      '.',
+      jasmine.stringMatching(/1 passed \(\d+ms\)/),
       '',
     ]);
   });
