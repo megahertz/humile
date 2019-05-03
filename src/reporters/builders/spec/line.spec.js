@@ -1,21 +1,22 @@
 'use strict';
 
-const lineSpecBuilder = require('./line');
+const { describe, it, expect } = require('../../..');
+const lineSpecBuilder          = require('./line');
 
 describe('lineSpecBuilder', () => {
   const builder = lineSpecBuilder();
 
   it('should build char string depending on status', () => {
     expect(builder({ status: 'passed' })).toEqual([
-      { text: '.', options: { color: 'green' } },
+      { text: '.', color: 'green' },
     ]);
 
     expect(builder({ status: 'pending' })).toEqual([
-      { text: '*', options: { color: 'cyan' } },
+      { text: '*', color: 'cyan' },
     ]);
 
     expect(builder({ status: 'failed' })).toEqual([
-      { text: 'F', options: { color: 'red' } },
+      { text: 'F', color: 'red' },
     ]);
   });
 

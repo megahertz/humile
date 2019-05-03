@@ -1,6 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../..');
+const color                    = require('./color');
 const Printer                  = require('./Printer');
 
 describe('Printer', () => {
@@ -30,7 +31,7 @@ describe('Printer', () => {
     const printer = createPrinter();
     printer.write('test', { color: 'red' });
     expect(printer.stream.content)
-      .toEqual(printer.colors.red + 'test' + printer.colors.unset);
+      .toEqual(color.red + 'test' + color.unset);
   });
 });
 

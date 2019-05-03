@@ -1,11 +1,13 @@
 'use strict';
 
+const expectationBuilder = require('./builders/details/expectation');
 const failedSpecBuilder  = require('./builders/details/failedSpec');
 const failedSuiteBuilder = require('./builders/details/failedSuite');
 const pendingSpecBuilder = require('./builders/details/pendingSpec');
 const specBuilder        = require('./builders/spec/line');
 const incompleteBuilder  = require('./builders/incomplete');
 const totalBuilder       = require('./builders/total');
+const Diff               = require('./tools/Diff');
 const Printer            = require('./tools/Printer');
 const SpecStats          = require('./tools/SpecStats');
 
@@ -25,11 +27,17 @@ class DefaultReporter {
       showColors: options.showColors,
     });
 
+    /** @type {Diff} */
+    this.diff = new Diff({ showColors: this.printer.showColors });
+
     Object.assign(this, options);
 
+    const expectation = expectationBuilder(this.diff);
+
     this.builders = {
-      failedSpec: failedSpecBuilder(),
-      failedSuite: failedSuiteBuilder(),
+      expectation,
+      failedSpec: failedSpecBuilder(expectation),
+      failedSuite: failedSuiteBuilder(expectation),
       incomplete: incompleteBuilder(),
       none: () => [],
       pendingSpec: pendingSpecBuilder(),

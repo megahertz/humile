@@ -8,8 +8,8 @@ describe('totalBuilder', () => {
     const builder = totalBuilder();
 
     expect(builder(createStats({ passed: 1 }))).toEqual([
-      { text: '1 passed', options: { color: 'green' } },
-      { text: ' (10ms)', options: { newLine: true } },
+      { text: '1 passed', color: 'green' },
+      { text: ' (10ms)', newLine: true },
     ]);
   });
 
@@ -17,10 +17,10 @@ describe('totalBuilder', () => {
     const builder = totalBuilder();
 
     expect(builder(createStats({ passed: 1, failed: 1 }))).toEqual([
-      { text: '1 passed', options: { color: 'green' } },
+      { text: '1 passed', color: 'green' },
       { text: ', ' },
-      { text: '1 failed', options: { color: 'red' } },
-      { text: ' (10ms)', options: { newLine: true } },
+      { text: '1 failed', color: 'red' },
+      { text: ' (10ms)', newLine: true },
     ]);
   });
 
@@ -28,12 +28,12 @@ describe('totalBuilder', () => {
     const builder = totalBuilder();
 
     expect(builder(createStats({ passed: 1, failed: 1, pending: 1 }))).toEqual([
-      { text: '1 passed', options: { color: 'green' } },
+      { text: '1 passed', color: 'green' },
       { text: ', ' },
-      { text: '1 failed', options: { color: 'red' } },
+      { text: '1 failed', color: 'red' },
       { text: ', ' },
-      { text: '1 pending', options: { color: 'cyan' } },
-      { text: ' (10ms)', options: { newLine: true } },
+      { text: '1 pending', color: 'cyan' },
+      { text: ' (10ms)', newLine: true },
     ]);
   });
 
@@ -41,7 +41,7 @@ describe('totalBuilder', () => {
     const builder = totalBuilder();
 
     expect(builder(createStats({}))).toEqual([
-      { text: 'No specs found', options: { color: 'yellow' } },
+      { text: 'No specs found', color: 'yellow' },
     ]);
   });
 });

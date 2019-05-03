@@ -21,7 +21,7 @@ function lineSpecBuilder() {
     }
 
     return [
-      { text: statusData.char, options: { color: statusData.color } },
+      { text: statusData.char, color: statusData.color },
     ];
   };
 }

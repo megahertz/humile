@@ -5,7 +5,7 @@ const failedSuiteBuilder       = require('./failedSuite');
 
 describe('failedSuiteBuilder', () => {
   it('should build failed suite data', () => {
-    const builder = failedSuiteBuilder();
+    const builder = failedSuiteBuilder(() => null);
     const suiteResult = {
       fullName: 'some suite',
       failedExpectations: [
@@ -14,9 +14,9 @@ describe('failedSuiteBuilder', () => {
     };
 
     expect(builder(suiteResult, 1)).toEqual([
-      { text: 'Suite error some suite', options: { newLine: true } },
-      jasmine.anything(),
-      { text: '', options: { newLine: true } },
+      { text: 'Suite error some suite', newLine: true },
+      null,
+      { text: '', newLine: true },
     ]);
   });
 });

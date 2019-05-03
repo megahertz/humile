@@ -1,12 +1,9 @@
 'use strict';
 
-const failedExpectationBuilder = require('./failedExpectation');
 
 module.exports = failedSuiteBuilder;
 
-function failedSuiteBuilder() {
-  const failedExpectation = failedExpectationBuilder();
-
+function failedSuiteBuilder(expectation) {
   return function build(suiteResult) {
     const isResultEmpty = !suiteResult || !suiteResult.failedExpectations
       || suiteResult.failedExpectations.length < 1;
@@ -16,12 +13,9 @@ function failedSuiteBuilder() {
     }
 
     return [
-      {
-        text: `Suite error ${suiteResult.fullName}`,
-        options: { newLine: true },
-      },
-      failedExpectation(suiteResult),
-      { text: '', options: { newLine: true } },
+      { text: `Suite error ${suiteResult.fullName}`, newLine: true },
+      expectation(suiteResult),
+      { text: '', newLine: true },
     ];
   };
 }
