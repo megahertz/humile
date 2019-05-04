@@ -6,7 +6,13 @@ function expectationBuilder(diff) {
   return function build(result) {
     return result.failedExpectations.map((failed) => {
       const data = [
-        { text: failed.message, color: 'red', indent: 1, newLine: true },
+        {
+          text: failed.message,
+          color: 'red',
+          indent: 1,
+          newLine: true,
+          wordWrap: true,
+        },
         { text: formatStack(failed.stack), color: 'gray', newLine: true },
       ];
 

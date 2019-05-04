@@ -18,7 +18,13 @@ describe('expectationBuilder', () => {
     };
 
     expect(builder(specResult, 1)).toEqual([[
-      { text: 'err message', color: 'red', indent: 1, newLine: true },
+      {
+        text: 'err message',
+        color: 'red',
+        indent: 1,
+        newLine: true,
+        wordWrap: true,
+      },
       { text: 'at err stack', color: 'gray', newLine: true },
       { text: '', newLine: true },
       { text: 'Difference: ', indent: 1 },

@@ -35,7 +35,8 @@ class Printer {
    * @param {object}  options
    * @param {string}  [options.color]
    * @param {boolean} [options.newLine]
-   * @param {number} [options.indent]
+   * @param {number}  [options.indent]
+   * @param {boolean} [options.wordWrap]
    */
   write(value, options = {}) {
     if (!this.stream) {
@@ -43,6 +44,11 @@ class Printer {
     }
 
     value = value || '';
+
+    if (options.wordWrap && this.stream.columns) {
+      const width = this.stream.columns - (options.indent || 0) * 2;
+      value = wordWrap(value, width);
+    }
 
     if (options.indent) {
       value = value
@@ -74,3 +80,10 @@ class Printer {
 }
 
 module.exports = Printer;
+
+function wordWrap(text, width) {
+  return text.replace(
+    new RegExp(`(?![^\\n]{1,${width}}$)([^\\n]{1,${width}})\\s`, 'g'),
+    '$1\n'
+  );
+}
