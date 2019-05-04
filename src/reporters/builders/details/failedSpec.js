@@ -10,7 +10,6 @@ function failedSpecBuilder(expectation) {
         newLine: true,
       },
       expectation(specResult),
-      { text: '', newLine: true },
     ];
   };
 }

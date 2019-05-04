@@ -16,7 +16,6 @@ describe('failedSpecBuilder', () => {
     expect(builder(suiteResult, 1)).toEqual([
       { text: '2) failed test', newLine: true },
       null,
-      { text: '', newLine: true },
     ]);
   });
 });

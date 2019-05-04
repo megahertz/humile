@@ -1,12 +1,11 @@
 'use strict';
 
 const { describe, it, expect } = require('../../..');
-const Diff                     = require('../../tools/Diff');
 const expectationBuilder      = require('./expectation');
 
 describe('expectationBuilder', () => {
-  it('should build pending spec data', () => {
-    const builder = expectationBuilder(new Diff());
+  it('should build failed expectation data', () => {
+    const builder = expectationBuilder(() => {});
     const specResult = {
       failedExpectations: [
         {
@@ -25,7 +24,7 @@ describe('expectationBuilder', () => {
       { text: 'Difference: ', indent: 1 },
       { text: '- Expected', color: 'green' },
       { text: ' + Received', color: 'red', newLine: true },
-      { text: '- 1\n+ 2', newLine: true, indent: 1 },
+      { newLine: true, indent: 1 },
       { text: ' ', newLine: true },
     ]]);
   });

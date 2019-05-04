@@ -2,9 +2,6 @@
 
 module.exports = expectationBuilder;
 
-/**
- * @param {Diff} [diff]
- */
 function expectationBuilder(diff) {
   return function build(result) {
     return result.failedExpectations.map((failed) => {
@@ -20,7 +17,7 @@ function expectationBuilder(diff) {
         data.push({ text: ' + Received', color: 'red', newLine: true });
 
         data.push({
-          text: diff.diff(failed.expected, failed.actual),
+          ...diff(failed.expected, failed.actual),
           indent: 1,
           newLine: true,
         });
