@@ -33,6 +33,16 @@ describe('Printer', () => {
     expect(printer.stream.content)
       .toEqual(color.red + 'test' + color.unset);
   });
+
+  it('should write batch of commands', () => {
+    const printer = createPrinter();
+    printer.batch([
+      [{ text: '1', newLine: true }],
+      { text: '2' },
+      {},
+    ]);
+    expect(printer.stream.content.split('\n')).toEqual(['1', '2']);
+  });
 });
 
 class StreamMock {
