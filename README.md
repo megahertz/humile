@@ -19,7 +19,6 @@ Features:
  
 Todo:
 
- - New reporter (now it uses reporter from jasmine-node)
  - Full doc and examples
  - Tests generator (maybe) 
 
