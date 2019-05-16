@@ -4,14 +4,14 @@ const util = require('util');
 
 module.exports = exports = JasmineReporter;
 
-var noopTimer = {
-  start: function(){},
-  elapsed: function(){ return 0; }
-};
+function Timer() {
+  this.start = function() { this.startTime = new Date(); };
+  this.elapsed = function() { return new Date() - this.startTime; };
+}
 
 function JasmineReporter(constructorOptions) {
   var showColors = false,
-    timer = noopTimer,
+    timer = new Timer(),
     jasmineCorePath = null,
     specCount,
     executableSpecCount,

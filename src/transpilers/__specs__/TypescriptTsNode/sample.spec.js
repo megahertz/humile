@@ -11,12 +11,12 @@ describe('transpilers/TypescriptTsNode', () => {
   it('should prevent loading file with some extension', () => {
     const tsNode = new TypescriptTsNode();
 
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line global-require,import/no-unresolved
     expect(() => require('./sample')).toThrow();
 
     tsNode.tryInitialize();
 
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line global-require,import/no-unresolved
     expect(require('./sample')).toEqual({ default: { result: true } });
   });
 });
