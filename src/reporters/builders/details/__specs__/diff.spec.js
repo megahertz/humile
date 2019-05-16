@@ -1,8 +1,8 @@
 'use strict';
 
-const { describe, it, expect } = require('../../..');
-const color                    = require('../../tools/color');
-const diffBuilder              = require('./diff');
+const { describe, it, expect } = require('../../../../index');
+const color                    = require('../../../tools/color');
+const diffBuilder              = require('../diff');
 
 describe('diffBuilder', () => {
   it('should build diff between expected and actual data', () => {

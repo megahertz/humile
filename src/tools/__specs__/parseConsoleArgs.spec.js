@@ -1,6 +1,6 @@
 'use strict';
 
-const parseConsoleArgs = require('./parseConsoleArgs');
+const parseConsoleArgs = require('../parseConsoleArgs');
 
 describe('Parse console arguments', () => {
   it('should parse short named arguments', () => {

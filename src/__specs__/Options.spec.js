@@ -1,6 +1,6 @@
 'use strict';
 
-const Options = require('./Options');
+const Options = require('../Options');
 
 describe('Options', () => {
   it('should use default values', () => {

@@ -1,7 +1,7 @@
 'use strict';
 
-const { describe, it, expect } = require('../../..');
-const expectationBuilder      = require('./expectation');
+const { describe, it, expect } = require('../../../../index');
+const expectationBuilder      = require('../expectation');
 
 describe('expectationBuilder', () => {
   it('should build failed expectation data', () => {

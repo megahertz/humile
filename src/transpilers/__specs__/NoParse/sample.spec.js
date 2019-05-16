@@ -1,6 +1,6 @@
 'use strict';
 
-const NoParse = require('../../../src/transpilers/NoParse');
+const NoParse = require('../../NoParse');
 
 describe('transpilers/NoParse', () => {
   it('should prevent loading file with some extension', () => {

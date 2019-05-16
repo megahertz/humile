@@ -1,7 +1,7 @@
 'use strict';
 
-const { describe, it, expect } = require('../..');
-const Timer = require('./Timer');
+const { describe, it, expect } = require('../../../index');
+const Timer = require('../Timer');
 
 describe('reporter/tools/Timer', () => {
   it('should return time in ms for interval less than 5 s', () => {

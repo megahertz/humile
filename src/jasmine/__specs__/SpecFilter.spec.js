@@ -1,7 +1,7 @@
 'use strict';
 
-const { describe, it, expect } = require('..');
-const SpecFilter = require('./SpecFilter');
+const { describe, it, expect } = require('../../index');
+const SpecFilter = require('../SpecFilter');
 
 describe('jasmine/SpecFilter', () => {
   it('should match any if no filter', () => {

@@ -1,7 +1,7 @@
 'use strict';
 
-const { describe, it, expect } = require('../..');
-const incompleteBuilder        = require('./incomplete');
+const { describe, it, expect } = require('../../../index');
+const incompleteBuilder        = require('../incomplete');
 
 describe('incompleteBuilder', () => {
   it('should build incomplete results data', () => {

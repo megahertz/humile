@@ -1,7 +1,7 @@
 'use strict';
 
 const glob       = require('glob');
-const FileFinder = require('./FileFinder');
+const FileFinder = require('../FileFinder');
 
 describe('FileFinder', () => {
   it('should find all specs in tools folder', () => {

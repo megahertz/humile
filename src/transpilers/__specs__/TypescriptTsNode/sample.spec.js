@@ -1,6 +1,6 @@
 'use strict';
 
-const TypescriptTsNode = require('../../../src/transpilers/TypescriptTsNode');
+const TypescriptTsNode = require('../../TypescriptTsNode');
 
 describe('transpilers/TypescriptTsNode', () => {
   afterEach(() => {
@@ -12,11 +12,11 @@ describe('transpilers/TypescriptTsNode', () => {
     const tsNode = new TypescriptTsNode();
 
     // eslint-disable-next-line global-require
-    expect(() => require('./sample.ts')).toThrow();
+    expect(() => require('./sample')).toThrow();
 
     tsNode.tryInitialize();
 
     // eslint-disable-next-line global-require
-    expect(require('./sample.ts')).toEqual({ default: { result: true } });
+    expect(require('./sample')).toEqual({ default: { result: true } });
   });
 });

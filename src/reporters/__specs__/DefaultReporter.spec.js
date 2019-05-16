@@ -1,9 +1,9 @@
 'use strict';
 
-const { describe, it, expect } = require('..');
+const { describe, it, expect } = require('../../index');
 
-const DefaultReporter = require('./DefaultReporter');
-const Printer         = require('./tools/Printer');
+const DefaultReporter = require('../DefaultReporter');
+const Printer         = require('../tools/Printer');
 
 describe('DefaultReporter', () => {
   it('should print spec execution progress', () => {
