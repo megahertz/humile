@@ -38,7 +38,7 @@ class DefaultReporter {
 
     stats.stopTimer();
 
-    if (builders.spec !== builders.none) {
+    if (builders.spec !== builders.none && this.stats.specCount > 0) {
       printer.writeLn('');
     }
 

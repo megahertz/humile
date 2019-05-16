@@ -12,7 +12,7 @@ describe('incompleteBuilder', () => {
     };
 
     expect(builder(suiteResult)).toEqual([
-      { text: 'Incomplete: test', newLine: true },
+      { text: 'Incomplete: test', newLine: true, color: 'yellow' },
     ]);
   });
 

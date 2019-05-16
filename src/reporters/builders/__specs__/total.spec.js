@@ -40,9 +40,7 @@ describe('totalBuilder', () => {
   it('should build total when no tests', () => {
     const builder = totalBuilder();
 
-    expect(builder(createStats({}))).toEqual([
-      { text: 'No specs found', color: 'yellow' },
-    ]);
+    expect(builder(createStats({}))).toEqual([]);
   });
 });
 

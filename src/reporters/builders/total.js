@@ -5,7 +5,7 @@ module.exports = totalBuilder;
 function totalBuilder() {
   return function build(stats) {
     if (stats.specCount < 1) {
-      return [{ text: 'No specs found', color: 'yellow' }];
+      return [];
     }
 
     /**

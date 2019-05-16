@@ -64,7 +64,12 @@ class Humile {
     // noinspection JSAnnotator
     this.addReporter({
       jasmineDone: (result) => {
-        const isPassed = result.overallStatus === 'passed' && !this.hasErrors;
+        let isPassed = result.overallStatus === 'passed' && !this.hasErrors;
+
+        if (!isPassed && result.incompleteReason === 'No specs found') {
+          isPassed = true;
+        }
+
         process.exit(isPassed ? 0 : 1);
       },
     });
