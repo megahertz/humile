@@ -1,8 +1,15 @@
 'use strict';
 
+const { afterEach, describe, it, expect } = require('../../..');
+
 const TypescriptTsNode = require('../../TypescriptTsNode');
 
 describe('transpilers/TypescriptTsNode', () => {
+  // skip slow test
+  if (process.argv.indexOf('--all') < 0) {
+    return;
+  }
+
   afterEach(() => {
     // noinspection JSDeprecatedSymbols
     delete require.extensions['.ts'];

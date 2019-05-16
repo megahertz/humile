@@ -1,5 +1,7 @@
 'use strict';
 
+const { timeMs } = require('./format');
+
 class Timer {
   constructor() {
     this.start();
@@ -18,13 +20,7 @@ class Timer {
   }
 
   getElapsed() {
-    const diff = this.stop() - this.startedTime;
-
-    if (diff < 5000) {
-      return diff + 'ms';
-    }
-
-    return (Math.round(diff / 10) / 100) + 's';
+    return timeMs(this.stop() - this.startedTime);
   }
 }
 
