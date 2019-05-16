@@ -6,7 +6,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "src/index.js 'src/**/*.spec.js'",
-    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'"
+    "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'",
+    "postversion": "git push && git push --tags",
+    "prepack": "npm run test"
   },
   "typings": "src/index.d.ts",
   "repository": "megahertz/humile",
