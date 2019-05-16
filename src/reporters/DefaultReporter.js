@@ -29,20 +29,7 @@ class DefaultReporter {
 
     Object.assign(this, options);
 
-    const diff = diffBuilder(this.printer.showColors);
-    const expectation = expectationBuilder(diff);
-
-    this.builders = {
-      diff,
-      expectation,
-      failedSpec: failedSpecBuilder(expectation),
-      failedSuite: failedSuiteBuilder(expectation),
-      incomplete: incompleteBuilder(),
-      none: () => [],
-      pendingSpec: pendingSpecBuilder(),
-      spec: specBuilder(),
-      total: totalBuilder(),
-    };
+    this.createBuilders();
   }
 
   jasmineStarted() {
@@ -94,6 +81,23 @@ class DefaultReporter {
     if (result.failedExpectations && result.failedExpectations.length > 0) {
       this.stats.failedSuites.push(result);
     }
+  }
+
+  createBuilders() {
+    const diff = diffBuilder(this.printer.showColors);
+    const expectation = expectationBuilder(diff);
+
+    this.builders = {
+      diff,
+      expectation,
+      failedSpec: failedSpecBuilder(expectation),
+      failedSuite: failedSuiteBuilder(expectation),
+      incomplete: incompleteBuilder(),
+      none: () => [],
+      pendingSpec: pendingSpecBuilder(),
+      spec: specBuilder(),
+      total: totalBuilder(),
+    };
   }
 }
 
