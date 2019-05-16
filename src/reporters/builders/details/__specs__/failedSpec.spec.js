@@ -5,7 +5,7 @@ const failedSpecBuilder        = require('../failedSpec');
 
 describe('failedSpecBuilder', () => {
   it('should build failed spec data', () => {
-    const builder = failedSpecBuilder(() => null);
+    const builder = failedSpecBuilder({ expectation: () => null });
     const suiteResult = {
       fullName: 'failed test',
       failedExpectations: [
@@ -14,7 +14,7 @@ describe('failedSpecBuilder', () => {
     };
 
     expect(builder(suiteResult, 1)).toEqual([
-      { text: '2) failed test', newLine: true },
+      { text: '2) failed test', newLine: true, indent: 0 },
       null,
     ]);
   });

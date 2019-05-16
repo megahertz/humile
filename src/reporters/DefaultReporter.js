@@ -11,25 +11,22 @@ const totalBuilder       = require('./builders/total');
 const Printer            = require('./tools/Printer');
 const SpecStats          = require('./tools/SpecStats');
 
+/**
+ * Reporter options
+ * @typedef {object} ReporterOptions
+ * @property {WritableStream} [stream]
+ * @property {boolean}        [showColors]
+ * @property {number}         [padding]
+ */
+
 class DefaultReporter {
   /**
-   * @param {object}         options
-   * @param {WritableStream} options.stream
-   * @param {boolean}        options.showColors
+   * @param {ReporterOptions} options
    */
   constructor(options) {
-    /** @type {SpecStats} */
-    this.stats = new SpecStats();
-
-    /** @type {Printer} */
-    this.printer = new Printer({
-      stream: options.stream || process.stderr,
-      showColors: options.showColors,
-    });
-
+    this.initDefaults(options);
     Object.assign(this, options);
-
-    this.createBuilders();
+    this.initBuilders(options);
   }
 
   jasmineStarted() {
@@ -46,7 +43,9 @@ class DefaultReporter {
     }
 
     if (stats.failedSpecs.length > 0 && builders.failedSpec !== builders.none) {
-      printer.writeLn('Failures:');
+      printer.writeLn('Failures:', { indent: Math.max(0, this.padding - 2) });
+      this.padding > 1 && printer.writeLn('');
+
       printer.batch(stats.failedSpecs.map(builders.failedSpec));
     }
 
@@ -57,7 +56,9 @@ class DefaultReporter {
 
     if (stats.pendingSpecs.length > 0
       && builders.pendingSpec !== builders.none) {
-      printer.writeLn('Pending:');
+      printer.writeLn('Pending:', { indent: Math.max(0, this.padding - 2) });
+      this.padding > 1 && printer.writeLn('');
+
       printer.batch(stats.pendingSpecs.map(builders.pendingSpec));
     }
 
@@ -83,21 +84,43 @@ class DefaultReporter {
     }
   }
 
-  createBuilders() {
-    const diff = diffBuilder(this.printer.showColors);
-    const expectation = expectationBuilder(diff);
+  /**
+   * @protected
+   */
+  initBuilders() {
+    const padding = this.padding;
+
+    const diff = diffBuilder({ padding, showColors: this.printer.showColors });
+    const expectation = expectationBuilder({ padding, diff });
 
     this.builders = {
       diff,
       expectation,
-      failedSpec: failedSpecBuilder(expectation),
-      failedSuite: failedSuiteBuilder(expectation),
+      failedSpec: failedSpecBuilder({ padding, expectation }),
+      failedSuite: failedSuiteBuilder({ padding, expectation }),
       incomplete: incompleteBuilder(),
       none: () => [],
-      pendingSpec: pendingSpecBuilder(),
+      pendingSpec: pendingSpecBuilder({ padding }),
       spec: specBuilder(),
       total: totalBuilder(),
     };
+  }
+
+  /**
+   * @param {ReporterOptions} options
+   * @protected
+   */
+  initDefaults(options) {
+    /** @type {SpecStats} */
+    this.stats = new SpecStats();
+
+    /** @type {Printer} */
+    this.printer = new Printer({
+      stream: options.stream || process.stderr,
+      showColors: options.showColors,
+    });
+
+    this.padding = 1;
   }
 }
 

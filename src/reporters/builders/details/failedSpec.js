@@ -2,12 +2,13 @@
 
 module.exports = failedSpecBuilder;
 
-function failedSpecBuilder(expectation) {
+function failedSpecBuilder({ expectation, padding = 1 }) {
   return function build(specResult, failedSpecNumber) {
     return [
       {
-        text: `${failedSpecNumber + 1}) ${specResult.fullName}`,
+        indent: Math.max(padding - 1, 0),
         newLine: true,
+        text: `${failedSpecNumber + 1}) ${specResult.fullName}`,
       },
       expectation(specResult),
     ];

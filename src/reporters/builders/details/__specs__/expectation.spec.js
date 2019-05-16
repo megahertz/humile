@@ -5,7 +5,7 @@ const expectationBuilder      = require('../expectation');
 
 describe('expectationBuilder', () => {
   it('should build failed expectation data', () => {
-    const builder = expectationBuilder(() => {});
+    const builder = expectationBuilder({ diff: () => {} });
     const specResult = {
       failedExpectations: [
         {

@@ -2,14 +2,14 @@
 
 module.exports = expectationBuilder;
 
-function expectationBuilder(diff) {
+function expectationBuilder({ diff, padding = 1 }) {
   return function build(result) {
     return result.failedExpectations.map((failed) => {
       const data = [
         {
           text: failed.message,
           color: 'red',
-          indent: 1,
+          indent: padding,
           newLine: true,
           wordWrap: true,
         },
@@ -18,18 +18,18 @@ function expectationBuilder(diff) {
 
       if (diff && failed.expected && failed.actual) {
         data.push({ text: '', newLine: true });
-        data.push({ text: 'Difference: ', indent: 1 });
+        data.push({ text: 'Difference: ', indent: padding });
         data.push({ text: '- Expected', color: 'green' });
         data.push({ text: ' + Received', color: 'red', newLine: true });
 
         data.push({
           ...diff(failed.expected, failed.actual),
-          indent: 1,
+          indent: padding,
           newLine: true,
         });
       }
 
-      data.push({ text: ' ', newLine: true });
+      padding && data.push({ text: ' ', newLine: true });
 
       return data;
     });

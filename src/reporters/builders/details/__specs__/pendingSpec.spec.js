@@ -12,7 +12,7 @@ describe('pendingSpecBuilder', () => {
     };
 
     expect(builder(suiteResult, 1)).toEqual([
-      { text: '2) pending test', newLine: true },
+      { text: '2) pending test', indent: 0, newLine: true },
       { text: '-', color: 'cyan', indent: 1, newLine: true },
       { text: '', newLine: true },
     ]);

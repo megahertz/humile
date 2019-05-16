@@ -3,7 +3,7 @@
 
 module.exports = failedSuiteBuilder;
 
-function failedSuiteBuilder(expectation) {
+function failedSuiteBuilder({ expectation }) {
   return function build(suiteResult) {
     const isResultEmpty = !suiteResult || !suiteResult.failedExpectations
       || suiteResult.failedExpectations.length < 1;

@@ -5,7 +5,7 @@ const failedSuiteBuilder       = require('../failedSuite');
 
 describe('failedSuiteBuilder', () => {
   it('should build failed suite data', () => {
-    const builder = failedSuiteBuilder(() => null);
+    const builder = failedSuiteBuilder({ expectation: () => null });
     const suiteResult = {
       fullName: 'some suite',
       failedExpectations: [

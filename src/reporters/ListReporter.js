@@ -8,10 +8,15 @@ class ListReporter extends DefaultReporter {
     this.specStartTime[result.id] = new Date();
   }
 
-  createBuilders() {
-    super.createBuilders();
+  initBuilders() {
+    super.initBuilders();
     this.specStartTime = {};
-    this.builders.spec = specBuilder(this.specStartTime);
+    this.builders.spec = specBuilder({ specStartTime: this.specStartTime });
+  }
+
+  initDefaults(options) {
+    super.initDefaults(options);
+    this.padding = 2;
   }
 }
 

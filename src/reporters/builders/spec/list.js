@@ -4,7 +4,11 @@ const { timeMs } = require('../../tools/format');
 
 module.exports = listSpecBuilder;
 
-function listSpecBuilder(specStartTime = {}, slowMetric = 75) {
+function listSpecBuilder({
+  padding = 1,
+  specStartTime = {},
+  slowMetric = 75,
+} = {}) {
   const STATUS_MAP = {
     passed:  { char: '✓', color: 'green', textColor: 'gray' },
     pending: { char: '⌛', color: 'cyan', textColor: 'cyan' },

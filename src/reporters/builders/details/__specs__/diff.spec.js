@@ -6,7 +6,7 @@ const diffBuilder              = require('../diff');
 
 describe('diffBuilder', () => {
   it('should build diff between expected and actual data', () => {
-    const builder = diffBuilder(false);
+    const builder = diffBuilder({ showColors: false });
     const actual = { a: { a: 2, b: 2 } };
     const expected = { a: { a: 1, b: 2 } };
 
@@ -22,7 +22,7 @@ describe('diffBuilder', () => {
   });
 
   it('should build color diff between expected and actual data', () => {
-    const builder = diffBuilder(true);
+    const builder = diffBuilder({ showColors: true });
     const actual = { a: { a: 2, b: 2 } };
     const expected = { a: { a: 1, b: 2 } };
 

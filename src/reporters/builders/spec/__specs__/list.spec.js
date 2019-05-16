@@ -24,8 +24,10 @@ describe('listSpecBuilder', () => {
 
   it('should build execution time for slow tests', () => {
     const builder = listSpecBuilder({
-      spec1: new Date(new Date() - 200),
-      spec2: new Date(new Date() - 20),
+      specStartTime: {
+        spec1: new Date(new Date() - 200),
+        spec2: new Date(new Date() - 20),
+      },
     });
 
     expect(builder(createSpecResult({ id: 'spec1' }))).toEqual([

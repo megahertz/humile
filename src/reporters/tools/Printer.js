@@ -2,6 +2,16 @@
 
 const color = require('./color');
 
+/**
+ * Reporter options
+ * @typedef {object} PrinterOptions
+ * @property {string}  [text]
+ * @property {string}  [color]
+ * @property {boolean} [newLine=false]
+ * @property {number}  [indent=0]
+ * @property {boolean} [wordWrap=false]
+ */
+
 class Printer {
   constructor(options = {}) {
     /** @type {WritableStream} */
@@ -16,7 +26,7 @@ class Printer {
 
   /**
    * Print multiple items
-   * @param {object[]|{ text: string, options: any }} data
+   * @param {object[] | PrinterOptions} data
    * @return {void}
    */
   batch(data) {
@@ -31,12 +41,8 @@ class Printer {
   }
 
   /**
-   * @param {string}  value
-   * @param {object}  options
-   * @param {string}  [options.color]
-   * @param {boolean} [options.newLine]
-   * @param {number}  [options.indent]
-   * @param {boolean} [options.wordWrap]
+   * @param {string}         value
+   * @param {PrinterOptions} [options]
    */
   write(value, options = {}) {
     if (!this.stream) {
@@ -68,11 +74,8 @@ class Printer {
   }
 
   /**
-   * @param {string}  value
-   * @param {object}  options
-   * @param {string}  [options.color]
-   * @param {boolean} [options.newLine]
-   * @param {number}  [options.indent]
+   * @param {string}         value
+   * @param {PrinterOptions} [options]
    */
   writeLn(value, options = {}) {
     this.write(value, { ...options, newLine: true });

@@ -5,12 +5,13 @@ const color       = require('../../tools/color');
 
 module.exports = diffBuilder;
 
-function diffBuilder(showColors) {
+function diffBuilder({ showColors }) {
   const theme = showColors ? createTheme() : {};
 
   return function build(expected, actual) {
     const options = { maxDepth: 1, theme };
 
+    /** @type {string} */
     let diff = concordance.diffDescriptors(
       concordance.describe(expected, options),
       concordance.describe(actual, options),
