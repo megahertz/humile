@@ -2,6 +2,13 @@
 
 module.exports = expectationBuilder;
 
+const DIFF_MATCHERS = [
+  'toBe',
+  'toBeGreaterThanOrEqual',
+  'toBeLessThanOrEqual',
+  'toEqual',
+];
+
 function expectationBuilder({ diff, padding = 1 }) {
   return function build(result) {
     return result.failedExpectations.map((failed) => {
@@ -16,7 +23,7 @@ function expectationBuilder({ diff, padding = 1 }) {
         { text: formatStack(failed.stack), color: 'gray', newLine: true },
       ];
 
-      if (diff && failed.expected && failed.actual) {
+      if (diff && isDiffRequired(failed)) {
         data.push({ text: '', newLine: true });
         data.push({ text: 'Difference: ', indent: padding });
         data.push({ text: '- Expected', color: 'green' });
@@ -50,4 +57,21 @@ function formatStack(stack) {
   }
 
   return lines.join('\n');
+}
+
+function isDiffRequired(expectation) {
+  if (!expectation) {
+    return false;
+  }
+
+  if (!DIFF_MATCHERS.includes(expectation.matcherName)) {
+    return false;
+  }
+
+  // noinspection RedundantIfStatementJS
+  if (!expectation.expected && !expectation.actual) {
+    return false;
+  }
+
+  return true;
 }
