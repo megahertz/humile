@@ -20,7 +20,7 @@ function expectationBuilder({ diff, padding = 1 }) {
           newLine: true,
           wordWrap: true,
         },
-        { text: formatStack(failed.stack), color: 'gray', newLine: true },
+        formatStack(failed.stack),
       ];
 
       if (diff && isDiffRequired(failed)) {
@@ -41,22 +41,31 @@ function expectationBuilder({ diff, padding = 1 }) {
       return data;
     });
   };
-}
 
-function formatStack(stack) {
-  const lines = stack
-    .split('\n')
-    .filter(line => line.trim().startsWith('at'));
+  function formatStack(stack) {
+    if (!stack) {
+      return null;
+    }
 
-  if (lines[0] === '    at <Jasmine>') {
-    lines.shift();
+    const lines = stack
+      .split('\n')
+      .filter(line => line.trim().startsWith('at'));
+
+    if (lines[0] === '    at <Jasmine>') {
+      lines.shift();
+    }
+
+    if (lines[lines.length - 1] === '    at <Jasmine>') {
+      lines.pop();
+    }
+
+    return {
+      text: lines.join('\n'),
+      color: 'gray',
+      indent: Math.max(0, padding - 1),
+      newLine: true,
+    };
   }
-
-  if (lines[lines.length - 1] === '    at <Jasmine>') {
-    lines.pop();
-  }
-
-  return lines.join('\n');
 }
 
 function isDiffRequired(expectation) {

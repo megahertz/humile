@@ -26,7 +26,7 @@ describe('expectationBuilder', () => {
         newLine: true,
         wordWrap: true,
       },
-      { text: 'at err stack', color: 'gray', newLine: true },
+      { text: 'at err stack', color: 'gray', newLine: true, indent: 0 },
       { text: '', newLine: true },
       { text: 'Difference: ', indent: 1 },
       { text: '- Expected', color: 'green' },
@@ -58,7 +58,30 @@ describe('expectationBuilder', () => {
         newLine: true,
         wordWrap: true,
       },
-      { text: 'at err stack', color: 'gray', newLine: true },
+      { text: 'at err stack', color: 'gray', newLine: true, indent: 0 },
+      { text: ' ', newLine: true },
+    ]]);
+  });
+
+  it('should build correctly when there is no data', () => {
+    const builder = expectationBuilder({ diff: () => {} });
+    const specResult = {
+      failedExpectations: [
+        {
+          message: 'err message',
+        },
+      ],
+    };
+
+    expect(builder(specResult, 1)).toEqual([[
+      {
+        text: 'err message',
+        color: 'red',
+        indent: 1,
+        newLine: true,
+        wordWrap: true,
+      },
+      null,
       { text: ' ', newLine: true },
     ]]);
   });
