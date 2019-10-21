@@ -30,15 +30,15 @@
     "node": ">=0.10"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "ts-node": "^5.0.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.4"
   },
   "dependencies": {
     "concordance": "^4.0.0",
     "glob": "^7.1.4",
-    "jasmine-core": "^3.4.0"
+    "jasmine-core": "^3.5.0"
   }
 }
