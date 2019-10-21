@@ -67,13 +67,15 @@ class DefaultReporter {
   }
 
   specDone(result) {
-    this.stats.specCount++;
-
     if (result.status === 'pending') {
       this.stats.pendingSpecs.push(result);
     } else if (result.status === 'failed') {
       this.stats.failedSpecs.push(result);
+    } else if (result.status === 'excluded') {
+      return;
     }
+
+    this.stats.specCount++;
 
     this.printer.batch(this.builders.spec(result));
   }

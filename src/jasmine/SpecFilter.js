@@ -13,7 +13,7 @@ class SpecFilter {
       filter = filter.substr(1);
     }
 
-    this.regexp = new RegExp(filter);
+    this.regexp = new RegExp(filter, 'i');
   }
 
   test(value) {
