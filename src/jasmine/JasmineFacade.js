@@ -41,6 +41,10 @@ class JasmineFacade {
    * @returns {void}
    */
   setSpecFilter(filter) {
+    if (!filter) {
+      return;
+    }
+
     const specFilter = new SpecFilter(filter);
 
     this.env.configure({

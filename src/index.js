@@ -2,14 +2,12 @@
 
 'use strict';
 
-const glob                    = require('glob');
-const path                    = require('path');
-const Humile                  = require('./Humile');
-const JasmineFacade           = require('./jasmine/JasmineFacade');
-const Options                 = require('./Options');
-const createReporter          = require('./reporters');
-const FileFinder              = require('./tools/FileFinder');
-const parseConsoleArgs        = require('./tools/parseConsoleArgs');
+const path = require('path');
+const Humile = require('./Humile');
+const JasmineFacade = require('./jasmine/JasmineFacade');
+const { createReporter } = require('./reporters');
+const { getConfig } = require('./tools/config');
+const FileFinder = require('./tools/FileFinder');
 const createTranspilerManager = require('./transpilers');
 
 module.exports = {
@@ -19,28 +17,26 @@ module.exports = {
 main();
 
 function main() {
-  const options = new Options(parseConsoleArgs());
+  const config = getConfig();
 
-  const finder = new FileFinder(glob, process.cwd());
-  const files = finder.find(options.masks)
+  const finder = new FileFinder(process.cwd());
+  const files = finder.find(config.masks)
     .map(file => path.join(process.cwd(), file));
 
-  const reporter = createReporter(options.reporter, {
-    stream: process.stderr,
-    showColors: process.stdout.isTTY,
-  });
-
   const jasmineFacade = new JasmineFacade();
-  options.filter && jasmineFacade.setSpecFilter(options.filter);
+  jasmineFacade.setSpecFilter(config.filter);
 
-  const humile = new Humile(options, jasmineFacade, createTranspilerManager({
-    noParse: options.noParse,
+  const humile = new Humile(config, jasmineFacade, createTranspilerManager({
+    noParse: config.ignoreExt,
   }));
 
   humile.exportGlobals(module.exports);
-  !options.noGlobals && humile.exportGlobals(global);
+  config.globals && humile.exportGlobals(global);
 
-  humile.addReporter(reporter);
+  humile.addReporter(createReporter(config.reporter, {
+    stream: process.stderr,
+    showColors: process.stderr.isTTY,
+  }));
 
   if (require.main === module) {
     humile.start(files);

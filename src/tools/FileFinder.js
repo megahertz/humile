@@ -1,18 +1,17 @@
 'use strict';
 
+const glob = require('glob');
+
 class FileFinder {
   /**
-   * @param {object} glob
    * @param {string} rootDir
    */
-  constructor(glob, rootDir) {
-    this.glob = glob;
+  constructor(rootDir) {
     this.rootDir = rootDir;
   }
 
   find(masks) {
     const rootDir = this.rootDir;
-    const glob = this.glob;
     const paths = this.separateExcluded(masks);
 
     return paths
