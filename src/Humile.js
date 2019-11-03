@@ -70,7 +70,7 @@ class Humile {
           isPassed = true;
         }
 
-        process.exit(isPassed ? 0 : 1);
+        process.exitCode = isPassed ? 0 : 1;
       },
     });
   }
