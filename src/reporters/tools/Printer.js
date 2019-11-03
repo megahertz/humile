@@ -52,7 +52,7 @@ class Printer {
     value = value || '';
 
     if (options.wordWrap && this.stream.columns) {
-      const width = this.stream.columns - (options.indent || 0) * 2;
+      const width = this.stream.columns - ((options.indent || 0) * 2);
       value = wordWrap(value, width);
     }
 
