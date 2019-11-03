@@ -57,6 +57,7 @@ class Config {
         expectedTextColor: opts.get('style.diff.expectedTextColor', 'green'),
         expectedSign: opts.get('style.diff.expectedSign', '+'),
         expectedFirst: opts.get('style.diff.expectedFirst', false),
+        maxDepth: opts.get('style.diff.maxDepth', 1),
       },
     };
   }

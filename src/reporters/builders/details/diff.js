@@ -13,16 +13,17 @@ function diffBuilder({ showColors, style = {} }) {
   const expectedTextColor = color.getBg(style.expectedTextColor, 'green');
   const expectedSign = style.expectedSign || '+';
   const expectedFirst = Boolean(style.expectedFirst);
+  const maxDepth = Number(style.maxDepth || 1);
 
   const theme = createTheme(showColors);
 
   return function build(expected, actual) {
-    const options = { maxDepth: 1, theme };
+    const options = { maxDepth, theme, invert: expectedFirst };
 
     /** @type {string} */
     let diff = concordance.diffDescriptors(
-      concordance.describe(expectedFirst ? expected : actual, options),
-      concordance.describe(expectedFirst ? actual : expected, options),
+      concordance.describe(actual, options),
+      concordance.describe(expected, options),
       options
     );
 
