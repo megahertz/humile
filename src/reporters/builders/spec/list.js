@@ -15,8 +15,6 @@ function listSpecBuilder({
     failed:  { char: '✕', color: 'red', textColor: 'red' },
   };
 
-  let latestSpecTitle = '';
-
   return function build(specResult) {
     if (!specResult || !specResult.fullName) {
       return [];
@@ -29,18 +27,12 @@ function listSpecBuilder({
 
     const result = [];
 
-    const title = specResult.fullName.replace(specResult.description, '');
-    if (title && latestSpecTitle !== title) {
-      if (latestSpecTitle !== '') {
-        result.push({ text: '', newLine: true });
-      }
-
-      result.push({ text: title, indent: 1, newLine: true });
-      latestSpecTitle = title;
-    }
-
     result.push(
-      { text: statusData.char, color: statusData.color, indent: 2 },
+      {
+        text: statusData.char,
+        color: statusData.color,
+        indent: (specResult.suiteLevel || 0) + 1,
+      },
       { text: ' ' + specResult.description, color: statusData.textColor }
     );
 

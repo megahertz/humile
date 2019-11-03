@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "src/index.js 'src/**/*.spec.js'",
-    "test:full": "npm test && npm run lint",
+    "test:full": "npm test -- --all && npm run lint",
     "lint": "eslint '**/*.js' --ignore-pattern 'node_modules'",
     "postversion": "npm run test:full && git push && git push --tags",
     "prepack": "npm run test:full"

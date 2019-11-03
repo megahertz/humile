@@ -9,7 +9,6 @@ describe('listSpecBuilder', () => {
     const builder = listSpecBuilder();
 
     expect(builder(createSpecResult())).toEqual([
-      { text: 'test', indent: 1, newLine: true },
       { text: '✓', color: 'green', indent: 2 },
       { text: ' description', color: 'gray' },
       { text: '', newLine: true },
@@ -31,7 +30,6 @@ describe('listSpecBuilder', () => {
     });
 
     expect(builder(createSpecResult({ id: 'spec1' }))).toEqual([
-      { text: 'test', indent: 1, newLine: true },
       { text: '✓', color: 'green', indent: 2 },
       { text: ' description', color: 'gray' },
       { text: jasmine.stringMatching(/\(\d+ms\)/), color: 'red' },
@@ -50,7 +48,6 @@ describe('listSpecBuilder', () => {
     const builder = listSpecBuilder();
 
     expect(builder(createSpecResult({ status: 'failed' }))).toEqual([
-      { text: 'test', indent: 1, newLine: true },
       { text: '✕', color: 'red', indent: 2 },
       { text: ' description', color: 'red' },
       { text: '', newLine: true },
@@ -61,7 +58,6 @@ describe('listSpecBuilder', () => {
     const builder = listSpecBuilder();
 
     expect(builder(createSpecResult({ status: 'pending' }))).toEqual([
-      { text: 'test', indent: 1, newLine: true },
       { text: '⌛', color: 'cyan', indent: 2 },
       { text: ' description', color: 'cyan' },
       { text: '', newLine: true },
@@ -74,6 +70,7 @@ function createSpecResult(data = {}) {
     status: 'passed',
     fullName: 'test',
     description: 'description',
+    suiteLevel: 1,
     ...data,
   };
 }
