@@ -28,10 +28,12 @@ describe('expectationBuilder', () => {
       },
       { text: 'at err stack', color: 'gray', newLine: true, indent: 0 },
       { text: '', newLine: true },
-      { text: 'Difference: ', indent: 1 },
-      { text: '- Expected', color: 'green' },
-      { text: ' + Received', color: 'red', newLine: true },
-      { newLine: true, indent: 1 },
+      { text: 'expect( ', indent: 1 },
+      { text: '- actual', color: 'red' },
+      { text: ' ).toBe( ' },
+      { text: '+ expected', color: 'green' },
+      { text: ' )', newLine: true },
+      { indent: 1, newLine: true },
       { text: ' ', newLine: true },
     ]]);
   });

@@ -16,6 +16,13 @@ color.gray = '\x1b[90m';
 color.bgRed = '\x1b[41m' + color.black;
 color.bgGreen = '\x1b[42m' + color.black;
 
+color.get = (name, defaultName) => {
+  return color[name] || color[defaultName] || '';
+};
+
+color.getBg = (name, defaultName) => {
+  return color[bgName(name)] || color[bgName(defaultName)] || '';
+};
 
 function color(name, text) {
   if (typeof color[name] !== 'string') {
@@ -23,4 +30,12 @@ function color(name, text) {
   }
 
   return color[name] + text + color.unset;
+}
+
+function bgName(name) {
+  if (typeof name !== 'string') {
+    return;
+  }
+
+  return 'bg' + (name[0] || '').toUpperCase() + name.substr(1);
 }

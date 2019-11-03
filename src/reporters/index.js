@@ -13,6 +13,10 @@ module.exports = {
  * Reporter factory
  * @param {string} name
  * @param {object} options
+ * @param {WritableStream} options.stream
+ * @param {boolean} options.showColors
+ * @param {object} options.stream
+ * @param {object} options.style
  * @return {humile.CustomReporter}
  */
 function createReporter(name, options) {

@@ -42,10 +42,23 @@ class Config {
     /** @type {string} */
     this.reporter = opts.reporter || 'default';
 
-    this.masks = opts._.length ? opts._ : [
+    /** @type {string[]} */
+    this.masks = opts._.length > 0 ? opts._ : [
       '**/*{[sS]pec,[T]est}.[jt]s?(x)',
       '!+(node_modules|dist)/**',
     ];
+
+    this.style = {
+      diff: {
+        actualColor: opts.get('style.diff.actualColor', 'red'),
+        actualTextColor: opts.get('style.diff.actualTextColor', 'red'),
+        actualSign: opts.get('style.diff.actualSign', '-'),
+        expectedColor: opts.get('style.diff.expectedColor', 'green'),
+        expectedTextColor: opts.get('style.diff.expectedTextColor', 'green'),
+        expectedSign: opts.get('style.diff.expectedSign', '+'),
+        expectedFirst: opts.get('style.diff.expectedFirst', false),
+      },
+    };
   }
 }
 

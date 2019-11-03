@@ -1,20 +1,28 @@
 'use strict';
 
 const concordance = require('concordance');
-const color       = require('../../tools/color');
+const color = require('../../tools/color');
 
 module.exports = diffBuilder;
 
-function diffBuilder({ showColors }) {
-  const theme = showColors ? createTheme() : {};
+function diffBuilder({ showColors, style = {} }) {
+  const actualColor = color.get(style.actualColor, 'red');
+  const actualTextColor = color.getBg(style.actualTextColor, 'red');
+  const actualSign = style.actualSign || '-';
+  const expectedColor = color.get(style.expectedColor, 'green');
+  const expectedTextColor = color.getBg(style.expectedTextColor, 'green');
+  const expectedSign = style.expectedSign || '+';
+  const expectedFirst = Boolean(style.expectedFirst);
+
+  const theme = createTheme(showColors);
 
   return function build(expected, actual) {
     const options = { maxDepth: 1, theme };
 
     /** @type {string} */
     let diff = concordance.diffDescriptors(
-      concordance.describe(expected, options),
-      concordance.describe(actual, options),
+      concordance.describe(expectedFirst ? expected : actual, options),
+      concordance.describe(expectedFirst ? actual : expected, options),
       options
     );
 
@@ -24,36 +32,48 @@ function diffBuilder({ showColors }) {
 
     return { text: diff, newLine: true };
   };
-}
 
-function createTheme() {
-  return {
-    string: {
-      diff: {
-        insert: { open: color.bgRed, close: color.unset + color.gray },
-        delete: { open: color.bgGreen, close: color.unset + color.gray },
+  function createTheme(useColors) {
+    const result = {
+      diffGutters: {
+        actual: expectedFirst ? `${expectedSign} ` : `${actualSign} `,
+        expected: expectedFirst ? `${actualSign} ` : `${expectedSign} `,
       },
-    },
-  };
-}
+    };
 
-function markDiffLine(diff) {
-  return diff
-    .split('\n')
-    .map((line) => {
-      if (line[0] === '-') {
-        return color.green + replaceGray(line, color.green) + color.gray;
-      }
+    if (useColors) {
+      const insert = expectedFirst ? actualTextColor : expectedTextColor;
+      const del = expectedFirst ? expectedTextColor : actualTextColor;
 
-      if (line[0] === '+') {
-        return color.red + replaceGray(line, color.red) + color.gray;
-      }
+      result.string = {
+        diff: {
+          insert: { open: insert, close: color.unset + color.gray },
+          delete: { open: del, close: color.unset + color.gray },
+        },
+      };
+    }
 
-      return line;
-    })
-    .join('\n');
-}
+    return result;
+  }
 
-function replaceGray(line, newColor) {
-  return line.split(color.gray).join(newColor);
+  function markDiffLine(diff) {
+    return diff
+      .split('\n')
+      .map((line) => {
+        if (line[0] === actualSign) {
+          return actualColor + replaceGray(line, actualColor) + color.gray;
+        }
+
+        if (line[0] === expectedSign) {
+          return expectedColor + replaceGray(line, expectedColor) + color.gray;
+        }
+
+        return line;
+      })
+      .join('\n');
+  }
+
+  function replaceGray(line, newColor) {
+    return line.split(color.gray).join(newColor);
+  }
 }

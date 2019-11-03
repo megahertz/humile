@@ -9,7 +9,13 @@ const DIFF_MATCHERS = [
   'toEqual',
 ];
 
-function expectationBuilder({ diff, padding = 1 }) {
+function expectationBuilder({ diff, padding = 1, style = {} }) {
+  const actualColor = style.actualColor || 'red';
+  const actualSign = style.actualSign || '-';
+  const expectedColor = style.expectedColor || 'green';
+  const expectedSign = style.expectedSign || '+';
+
+
   return function build(result) {
     return result.failedExpectations.map((failed) => {
       const data = [
@@ -25,9 +31,11 @@ function expectationBuilder({ diff, padding = 1 }) {
 
       if (diff && isDiffRequired(failed)) {
         data.push({ text: '', newLine: true });
-        data.push({ text: 'Difference: ', indent: padding });
-        data.push({ text: '- Expected', color: 'green' });
-        data.push({ text: ' + Received', color: 'red', newLine: true });
+        data.push({ text: 'expect( ', indent: padding });
+        data.push({ text: `${actualSign} actual`, color: actualColor });
+        data.push({ text: ` ).${failed.matcherName}( ` });
+        data.push({ text: `${expectedSign} expected`, color: expectedColor });
+        data.push({ text: ' )', newLine: true });
 
         data.push({
           ...diff(failed.expected, failed.actual),

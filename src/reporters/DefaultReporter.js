@@ -1,21 +1,22 @@
 'use strict';
 
-const diffBuilder        = require('./builders/details/diff');
+const diffBuilder = require('./builders/details/diff');
 const expectationBuilder = require('./builders/details/expectation');
-const failedSpecBuilder  = require('./builders/details/failedSpec');
+const failedSpecBuilder = require('./builders/details/failedSpec');
 const failedSuiteBuilder = require('./builders/details/failedSuite');
 const pendingSpecBuilder = require('./builders/details/pendingSpec');
-const specBuilder        = require('./builders/spec/line');
-const incompleteBuilder  = require('./builders/incomplete');
-const totalBuilder       = require('./builders/total');
-const Printer            = require('./tools/Printer');
-const SpecStats          = require('./tools/SpecStats');
+const specBuilder = require('./builders/spec/line');
+const incompleteBuilder = require('./builders/incomplete');
+const totalBuilder = require('./builders/total');
+const Printer = require('./tools/Printer');
+const SpecStats = require('./tools/SpecStats');
 
 /**
  * Reporter options
  * @typedef {object} ReporterOptions
  * @property {WritableStream} [stream]
  * @property {boolean}        [showColors]
+ * @property {object}         [style]
  * @property {number}         [padding]
  */
 
@@ -38,32 +39,37 @@ class DefaultReporter {
 
     stats.stopTimer();
 
-    if (builders.spec !== builders.none && this.stats.specCount > 0) {
-      printer.writeLn('');
+    try {
+      if (builders.spec !== builders.none && this.stats.specCount > 0) {
+        printer.writeLn('');
+      }
+
+      const failedSpecs = stats.failedSpecs;
+      if (failedSpecs.length > 0 && builders.failedSpec !== builders.none) {
+        printer.writeLn('Failures:', { indent: Math.max(0, this.padding - 2) });
+        this.padding > 1 && printer.writeLn('');
+
+        printer.batch(failedSpecs.map(builders.failedSpec));
+      }
+
+      if (builders.failedSuite !== builders.none) {
+        printer.batch(stats.failedSuites.map(builders.failedSuite));
+        printer.batch(builders.failedSuite(result));
+      }
+
+      if (stats.pendingSpecs.length > 0
+        && builders.pendingSpec !== builders.none) {
+        printer.writeLn('Pending:', { indent: Math.max(0, this.padding - 2) });
+        this.padding > 1 && printer.writeLn('');
+
+        printer.batch(stats.pendingSpecs.map(builders.pendingSpec));
+      }
+
+      printer.batch(builders.total(stats));
+      printer.batch(builders.incomplete(result));
+    } catch (e) {
+      console.error(e);
     }
-
-    if (stats.failedSpecs.length > 0 && builders.failedSpec !== builders.none) {
-      printer.writeLn('Failures:', { indent: Math.max(0, this.padding - 2) });
-      this.padding > 1 && printer.writeLn('');
-
-      printer.batch(stats.failedSpecs.map(builders.failedSpec));
-    }
-
-    if (builders.failedSuite !== builders.none) {
-      printer.batch(stats.failedSuites.map(builders.failedSuite));
-      printer.batch(builders.failedSuite(result));
-    }
-
-    if (stats.pendingSpecs.length > 0
-      && builders.pendingSpec !== builders.none) {
-      printer.writeLn('Pending:', { indent: Math.max(0, this.padding - 2) });
-      this.padding > 1 && printer.writeLn('');
-
-      printer.batch(stats.pendingSpecs.map(builders.pendingSpec));
-    }
-
-    printer.batch(builders.total(stats));
-    printer.batch(builders.incomplete(result));
   }
 
   specDone(result) {
@@ -92,8 +98,16 @@ class DefaultReporter {
   initBuilders() {
     const padding = this.padding;
 
-    const diff = diffBuilder({ padding, showColors: this.printer.showColors });
-    const expectation = expectationBuilder({ padding, diff });
+    const diff = diffBuilder({
+      padding,
+      showColors: this.printer.showColors,
+      style: this.style.diff,
+    });
+    const expectation = expectationBuilder({
+      diff,
+      padding,
+      style: this.style.diff,
+    });
 
     this.builders = {
       diff,
@@ -123,6 +137,8 @@ class DefaultReporter {
     });
 
     this.padding = 1;
+
+    this.style = options.style || {};
   }
 }
 
