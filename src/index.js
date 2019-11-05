@@ -35,7 +35,7 @@ function main() {
 
   humile.addReporter(createReporter(config.reporter, {
     projectPath: config.path,
-    showColors: process.stderr.isTTY,
+    showColors: config.colors,
     stream: process.stderr,
     style: config.style,
   }));

@@ -18,6 +18,8 @@ Options:
   -G, --no-globals  Don't register global function like describe, expect etc
   -f, --filter      Filter specs to run only those that match the given string
   -R, --reporter    default, jasmine, list, mini
+      --colors      Force turn on colors in spec output
+      --no-colors   Force turn off colors in spec output
   `);
 
   return new Config(options);
@@ -28,17 +30,24 @@ class Config {
    * @param {packageOptions.PackageOptions} opts
    */
   constructor(opts) {
-    /** @type {string[]} */
-    this.require = asArray(opts.require);
+    /** @type {string | void} */
+    this.filter = opts.filter;
 
-    /** @type {string[]} */
-    this.ignoreExt = asArray(opts.ignoreExt);
+    const colorSupport = process.stdout.isTTY;
+    /** @type {boolean} */
+    this.colors = opts.colors === undefined ? colorSupport : opts.colors;
 
     /** @type {boolean} */
     this.globals = opts.globals === undefined || opts.globals;
 
-    /** @type {string | void} */
-    this.filter = opts.filter;
+    /** @type {string[]} */
+    this.ignoreExt = asArray(opts.ignoreExt);
+
+    /** @type {string[]} */
+    this.masks = opts._.length > 0 ? opts._ : [
+      '**/*{[sS]pec,[T]est}.[jt]s?(x)',
+      '!+(node_modules|dist)/**',
+    ];
 
     /** @type {string} */
     this.path = opts.path || process.cwd();
@@ -47,10 +56,7 @@ class Config {
     this.reporter = opts.reporter || 'default';
 
     /** @type {string[]} */
-    this.masks = opts._.length > 0 ? opts._ : [
-      '**/*{[sS]pec,[T]est}.[jt]s?(x)',
-      '!+(node_modules|dist)/**',
-    ];
+    this.require = asArray(opts.require);
 
     this.style = {
       diff: {
