@@ -34,6 +34,7 @@ function main() {
   config.globals && humile.exportGlobals(global);
 
   humile.addReporter(createReporter(config.reporter, {
+    projectPath: config.path,
     showColors: process.stderr.isTTY,
     stream: process.stderr,
     style: config.style,

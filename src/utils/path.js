@@ -16,5 +16,9 @@ function shortenPath(rootPath, absolutePath) {
     return absolutePath;
   }
 
+  if (relativePath.length > absolutePath) {
+    return absolutePath;
+  }
+
   return relativePath;
 }

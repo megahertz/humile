@@ -57,11 +57,16 @@ class Config {
         actualColor: opts.get('style.diff.actualColor', 'red'),
         actualTextColor: opts.get('style.diff.actualTextColor', 'red'),
         actualSign: opts.get('style.diff.actualSign', '-'),
+        disabled: opts.get('style.diff.disabled', false),
         expectedColor: opts.get('style.diff.expectedColor', 'green'),
         expectedTextColor: opts.get('style.diff.expectedTextColor', 'green'),
         expectedSign: opts.get('style.diff.expectedSign', '+'),
         expectedFirst: opts.get('style.diff.expectedFirst', false),
         maxDepth: opts.get('style.diff.maxDepth', 1),
+      },
+      code: {
+        disabled: opts.get('style.code.disabled', false),
+        numberOfLines: opts.get('style.code.numberOfLines', 3),
       },
     };
   }

@@ -1,5 +1,9 @@
 'use strict';
 
+const fs = require('fs');
+const { shortenPath } = require('../../../utils/path');
+const { parseStack } = require('../../utils/stack');
+
 module.exports = expectationBuilder;
 
 const DIFF_MATCHERS = [
@@ -9,25 +13,27 @@ const DIFF_MATCHERS = [
   'toEqual',
 ];
 
-function expectationBuilder({ diff, padding = 1, style = {} }) {
+function expectationBuilder({
+  code,
+  diff,
+  padding = 1,
+  projectPath,
+  style = {},
+}) {
   const actualColor = style.actualColor || 'red';
   const actualSign = style.actualSign || '-';
   const expectedColor = style.expectedColor || 'green';
   const expectedSign = style.expectedSign || '+';
 
-
   return function build(result) {
     return result.failedExpectations.map((failed) => {
-      const data = [
-        {
-          text: failed.message,
-          color: 'red',
-          indent: padding,
-          newLine: true,
-          wordWrap: true,
-        },
-        formatStack(failed.stack),
-      ];
+      const data = [{
+        text: failed.message,
+        color: 'red',
+        indent: padding,
+        newLine: true,
+        wordWrap: true,
+      }];
 
       if (diff && isDiffRequired(failed)) {
         data.push({ text: '', newLine: true });
@@ -44,35 +50,44 @@ function expectationBuilder({ diff, padding = 1, style = {} }) {
         });
       }
 
+      const stack = parseStack(failed.stack).clearSystem();
+
+      if (!stack.isEmpty()) {
+        data.push({ text: '', newLine: true });
+        data.push(stack.print({ indent: padding, formatPath }));
+      }
+
+      const source = stack.getFirstItem();
+      const codeText = readSource(source);
+      if (code && codeText) {
+        data.push({ text: '', newLine: true });
+        data.push(code(codeText, source.line, source.position, padding));
+      }
+
       padding && data.push({ text: ' ', newLine: true });
 
       return data;
     });
   };
 
-  function formatStack(stack) {
-    if (!stack) {
-      return null;
+  /**
+   * @param {StackItem} stackItem
+   * @return {string}
+   */
+  function readSource(stackItem) {
+    if (!stackItem || !stackItem.source) {
+      return '';
     }
 
-    const lines = stack
-      .split('\n')
-      .filter(line => line.trim().startsWith('at'));
-
-    if (lines[0] === '    at <Jasmine>') {
-      lines.shift();
+    try {
+      return fs.readFileSync(stackItem.source, 'utf8');
+    } catch (e) {
+      return '';
     }
+  }
 
-    if (lines[lines.length - 1] === '    at <Jasmine>') {
-      lines.pop();
-    }
-
-    return {
-      text: lines.join('\n'),
-      color: 'gray',
-      indent: Math.max(0, padding - 1),
-      newLine: true,
-    };
+  function formatPath(stackPath) {
+    return projectPath ? shortenPath(projectPath, stackPath) : stackPath;
   }
 }
 

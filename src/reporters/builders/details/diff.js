@@ -15,9 +15,15 @@ function diffBuilder({ showColors, style = {} }) {
   const expectedFirst = Boolean(style.expectedFirst);
   const maxDepth = Number(style.maxDepth || 1);
 
+  const isDisabled = Boolean(style.disabled);
+
   const theme = createTheme(showColors);
 
   return function build(expected, actual) {
+    if (isDisabled) {
+      return {};
+    }
+
     const options = { maxDepth, theme, invert: expectedFirst };
 
     /** @type {string} */

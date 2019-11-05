@@ -1,7 +1,7 @@
 'use strict';
 
-const { describe, it, expect } = require('../../../../index');
-const expectationBuilder      = require('../expectation');
+const { describe, jasmine, it, expect } = require('../../../../index');
+const expectationBuilder = require('../expectation');
 
 describe('expectationBuilder', () => {
   it('should build failed expectation data', () => {
@@ -26,7 +26,6 @@ describe('expectationBuilder', () => {
         newLine: true,
         wordWrap: true,
       },
-      { text: 'at err stack', color: 'gray', newLine: true, indent: 0 },
       { text: '', newLine: true },
       { text: 'expect( ', indent: 1 },
       { text: '- actual', color: 'red' },
@@ -34,6 +33,8 @@ describe('expectationBuilder', () => {
       { text: '+ expected', color: 'green' },
       { text: ' )', newLine: true },
       { indent: 1, newLine: true },
+      { text: '', newLine: true },
+      jasmine.anything(),
       { text: ' ', newLine: true },
     ]]);
   });
@@ -45,7 +46,7 @@ describe('expectationBuilder', () => {
         {
           matcherName: 'toBeDefined',
           message: 'err message',
-          stack: 'at err stack',
+          stack: 'Error: err stack',
           expected: 1,
           actual: 2,
         },
@@ -60,7 +61,6 @@ describe('expectationBuilder', () => {
         newLine: true,
         wordWrap: true,
       },
-      { text: 'at err stack', color: 'gray', newLine: true, indent: 0 },
       { text: ' ', newLine: true },
     ]]);
   });
@@ -83,7 +83,6 @@ describe('expectationBuilder', () => {
         newLine: true,
         wordWrap: true,
       },
-      null,
       { text: ' ', newLine: true },
     ]]);
   });

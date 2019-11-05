@@ -1,7 +1,7 @@
 'use strict';
 
 const jasmineRequire = require('jasmine-core');
-const SpecFilter     = require('./SpecFilter');
+const SpecFilter = require('./SpecFilter');
 
 class JasmineFacade {
   constructor() {

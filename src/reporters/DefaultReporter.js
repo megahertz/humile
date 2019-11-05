@@ -1,5 +1,6 @@
 'use strict';
 
+const codeBuilder = require('./builders/details/code');
 const diffBuilder = require('./builders/details/diff');
 const expectationBuilder = require('./builders/details/expectation');
 const failedSpecBuilder = require('./builders/details/failedSpec');
@@ -14,10 +15,11 @@ const SpecStats = require('./utils/SpecStats');
 /**
  * Reporter options
  * @typedef {object} ReporterOptions
+ * @property {number} [padding]
+ * @property {string} [projectPath]
  * @property {WritableStream} [stream]
- * @property {boolean}        [showColors]
- * @property {object}         [style]
- * @property {number}         [padding]
+ * @property {boolean} [showColors]
+ * @property {object} [style]
  */
 
 class DefaultReporter {
@@ -98,18 +100,23 @@ class DefaultReporter {
   initBuilders() {
     const padding = this.padding;
 
+    const code = codeBuilder({ style: this.style.code });
+
     const diff = diffBuilder({
       padding,
       showColors: this.printer.showColors,
       style: this.style.diff,
     });
     const expectation = expectationBuilder({
+      code,
       diff,
       padding,
+      projectPath: this.projectPath,
       style: this.style.diff,
     });
 
     this.builders = {
+      code,
       diff,
       expectation,
       failedSpec: failedSpecBuilder({ padding, expectation }),
@@ -139,6 +146,8 @@ class DefaultReporter {
     this.padding = 1;
 
     this.style = options.style || {};
+
+    this.projectPath = options.projectPath;
   }
 }
 
