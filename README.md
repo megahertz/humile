@@ -1,51 +1,39 @@
 # humile
 [![Build Status](https://travis-ci.org/megahertz/humile.svg?branch=master)](https://travis-ci.org/megahertz/humile)
 [![NPM version](https://badge.fury.io/js/humile.svg)](https://badge.fury.io/js/humile)
-[![Dependencies status](https://david-dm.org/megahertz/humile/status.svg)](https://david-dm.org/megahertz/humile)
 
 Make Jasmine Great Again!
 
 ## Description
 
-node.js test framework on top of Jasmine. This project is in early alpha stage. 
+node.js test framework on top of Jasmine
+
+![Screenshot](docs/img/rcreenshort-general.png)
 
 Features:
 
  - lightweight
  - fast
- - zero config
+ - zero configuration
  - no globals (optional)
- - typescript ready
- 
-Todo:
-
- - Full doc and examples
- - Tests generator (maybe) 
+ - TypeScript ready
+ - backward-compatible with Jasmine runner
+ - very customizable
 
 ## Usage
 
-1. Install with [npm](https://npmjs.org/package/humile):
+1. Write your test
 
-    npm install --save-dev humile
-    
-2. Add to your package.json:
-
-```json
-{
-  "scripts": {
-    "test": "humile"
-  }
-}
-```
-
-3. Write your test
+**my-first.spec.js**
 
 ```js
-const { describe, expect, it } = require('humile');
-
 describe('my first spec', () => {
   it('should test a simple value', () => {
     expect(true).toBe(true);
   });
 });
 ```
+
+2. Run humile
+
+`$ npx humile`
