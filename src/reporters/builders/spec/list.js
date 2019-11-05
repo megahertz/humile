@@ -1,6 +1,6 @@
 'use strict';
 
-const { timeMs } = require('../../tools/format');
+const { timeMs } = require('../../utils/format');
 
 module.exports = listSpecBuilder;
 

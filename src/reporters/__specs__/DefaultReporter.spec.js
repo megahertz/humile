@@ -3,7 +3,7 @@
 const { describe, it, expect } = require('../../index');
 
 const DefaultReporter = require('../DefaultReporter');
-const Printer         = require('../tools/Printer');
+const Printer         = require('../utils/Printer');
 
 describe('DefaultReporter', () => {
   it('should print spec execution progress', () => {

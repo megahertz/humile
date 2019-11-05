@@ -11,6 +11,7 @@ function getConfig() {
 Usage: humile [Test path patterns]
 Options:
   -r, --require     Load module that match the given string
+  -p, --path        Tests path, default is current working directory
   -i, --ignore-ext  Ignore some extension. "--ignore-ext .css" with
                     "import styles from './styles.css" will result style to be
                     an empty object
@@ -38,6 +39,9 @@ class Config {
 
     /** @type {string | void} */
     this.filter = opts.filter;
+
+    /** @type {string} */
+    this.path = opts.path || process.cwd();
 
     /** @type {string} */
     this.reporter = opts.reporter || 'default';

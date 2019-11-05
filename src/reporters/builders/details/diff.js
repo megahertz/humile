@@ -1,7 +1,7 @@
 'use strict';
 
 const concordance = require('concordance');
-const color = require('../../tools/color');
+const color = require('../../utils/color');
 
 module.exports = diffBuilder;
 

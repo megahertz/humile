@@ -3,7 +3,7 @@
 const { describe, it, expect } = require('../../../index');
 const Timer = require('../Timer');
 
-describe('reporter/tools/Timer', () => {
+describe('reporter/utils/Timer', () => {
   it('should return time in ms for interval less than 5 s', () => {
     const timer = new Timer();
     timer.startedTime = new Date(Date.now() - 2000);

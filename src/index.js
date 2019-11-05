@@ -6,8 +6,8 @@ const path = require('path');
 const Humile = require('./Humile');
 const JasmineFacade = require('./jasmine/JasmineFacade');
 const { createReporter } = require('./reporters');
-const { getConfig } = require('./tools/config');
-const FileFinder = require('./tools/FileFinder');
+const { getConfig } = require('./utils/config');
+const FileFinder = require('./utils/FileFinder');
 const createTranspilerManager = require('./transpilers');
 
 module.exports = {
@@ -19,9 +19,9 @@ main();
 function main() {
   const config = getConfig();
 
-  const finder = new FileFinder(process.cwd());
+  const finder = new FileFinder(config.path);
   const files = finder.find(config.masks)
-    .map(file => path.join(process.cwd(), file));
+    .map(file => path.join(config.path, file));
 
   const jasmineFacade = new JasmineFacade();
   jasmineFacade.setSpecFilter(config.filter);

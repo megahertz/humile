@@ -3,7 +3,7 @@
 const { describe, it, expect } = require('../../../index');
 const format = require('../format');
 
-describe('reporter/tools/format', () => {
+describe('reporter/utils/format', () => {
   it('should format time in milliseconds', () => {
     expect(format.timeMs(1)).toBe('1ms');
     expect(format.timeMs(5000)).toBe('5s');

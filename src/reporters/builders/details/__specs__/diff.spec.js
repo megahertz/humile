@@ -1,7 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../../../../index');
-const color = require('../../../tools/color');
+const color = require('../../../utils/color');
 const diffBuilder = require('../diff');
 
 describe('diffBuilder', () => {

@@ -1,15 +1,18 @@
 'use strict';
 
+const { shortenPath } = require('./utils/path')
+
 class Humile {
   /**
-   * @param {Options} options
+   * @param {Config} config
    * @param {JasmineFacade} jasmineFacade
+   * @param {TranspilerManager} transpileManager
    */
-  constructor(options, jasmineFacade, transpileManager) {
+  constructor(config, jasmineFacade, transpileManager) {
     this.hasErrors = false;
 
-    /** @type {Options} */
-    this.options = options;
+    /** @type {Config} */
+    this.config = config;
 
     /** @type {JasmineFacade} */
     this.jasmine = jasmineFacade;
@@ -35,8 +38,8 @@ class Humile {
   }
 
   start(files) {
-    this.options.require.forEach(this.requireModule, this);
-    files.forEach(this.requireModule, this);
+    this.config.require.forEach(this.requireModule, this);
+    files.forEach(this.requireSuite, this);
     this.subscribeToJasmineEvents();
     this.jasmine.execute();
   }
@@ -54,6 +57,18 @@ class Humile {
     } catch (e) {
       this.hasErrors = true;
       throw e;
+    }
+  }
+
+  /**
+   * @private
+   * @param {string} module
+   */
+  requireSuite(module) {
+    try {
+      this.requireModule(module);
+    } catch (e) {
+      this.jasmine.addSuiteError(shortenPath(this.config.path, module), e);
     }
   }
 

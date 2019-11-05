@@ -8,8 +8,8 @@ const pendingSpecBuilder = require('./builders/details/pendingSpec');
 const specBuilder = require('./builders/spec/line');
 const incompleteBuilder = require('./builders/incomplete');
 const totalBuilder = require('./builders/total');
-const Printer = require('./tools/Printer');
-const SpecStats = require('./tools/SpecStats');
+const Printer = require('./utils/Printer');
+const SpecStats = require('./utils/SpecStats');
 
 /**
  * Reporter options

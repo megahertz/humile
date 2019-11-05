@@ -4,7 +4,7 @@ const { describe, it, expect } = require('../../../index');
 const color                    = require('../color');
 const Printer                  = require('../Printer');
 
-describe('Printer', () => {
+describe('reporters/utils/Printer', () => {
   describe('write', () => {
     it('should write a single string', () => {
       const printer = createPrinter();

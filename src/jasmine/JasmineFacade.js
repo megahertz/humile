@@ -21,6 +21,18 @@ class JasmineFacade {
     this.env.addReporter(reporter);
   }
 
+  /**
+   * @param {string} suiteName
+   * @param {error} error
+   */
+  addSuiteError(suiteName, error) {
+    this.env.describe(suiteName, () => {
+      this.env.it('test suite failed to run', () => {
+        throw error;
+      });
+    });
+  }
+
   execute() {
     this.env.execute();
   }
