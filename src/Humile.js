@@ -1,6 +1,6 @@
 'use strict';
 
-const { shortenPath } = require('./utils/path')
+const { shortenPath } = require('./utils/path');
 
 class Humile {
   /**
