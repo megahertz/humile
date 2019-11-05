@@ -24,16 +24,16 @@ Features:
 
 1. Write your test
 
-**my-first.spec.js**
+    **my-first.spec.js**
 
-```js
-describe('my first spec', () => {
-  it('should test a simple value', () => {
-    expect(true).toBe(true);
-  });
-});
-```
+    ```js
+    describe('my first spec', () => {
+      it('should test a simple value', () => {
+        expect(true).toBe(true);
+      });
+    });
+    ```
 
 2. Run humile
 
-`$ npx humile`
+    `$ npx humile`
