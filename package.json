@@ -41,6 +41,6 @@
     "concordance": "^4.0.0",
     "glob": "^7.1.4",
     "jasmine-core": "^3.5.0",
-    "package-options": "0.0.6"
+    "package-options": "^0.0.7"
   }
 }

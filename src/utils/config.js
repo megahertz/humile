@@ -20,6 +20,9 @@ Options:
   -R, --reporter    default, jasmine, list, mini
       --colors      Force turn on colors in spec output
       --no-colors   Force turn off colors in spec output
+      
+      --version     Show version
+      --help        Show this help message
   `);
 
   return new Config(options);
