@@ -1,7 +1,7 @@
 'use strict';
 
 const options = require('package-options');
-const { isCommandExists } = require('../commands')
+const { isCommandExists } = require('../commands');
 
 module.exports = {
   getConfig,
