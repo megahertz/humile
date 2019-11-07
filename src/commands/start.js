@@ -10,7 +10,7 @@ module.exports = start;
  */
 function start({ config, fileFinder, humile, isRequiredAsLibrary }) {
   if (isRequiredAsLibrary) {
-    setTimeout(10, () => humile.start([]));
+    setTimeout(() => humile.start([]), 10);
   } else {
     humile.start(fileFinder.findAbsolute());
   }
