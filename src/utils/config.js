@@ -1,6 +1,7 @@
 'use strict';
 
 const options = require('package-options');
+const { isCommandExists } = require('../commands')
 
 module.exports = {
   getConfig,
@@ -8,21 +9,26 @@ module.exports = {
 
 function getConfig() {
   options.help(`
-Usage: humile [Test path patterns]
+Usage: humile [Command] [Test path patterns]
 Options:
-  -r, --require     Load module that match the given string
-  -p, --path        Tests path, default is current working directory
-  -i, --ignore-ext  Ignore some extension. "--ignore-ext .css" with
+      --colors      Force turn on colors in spec output
+  -f, --filter      Filter specs to run only those that match the given string
+  -i, --ignore      Ignore patterns like node_modules
+      --ignore-ext  Ignore some extension. "--ignore-ext .css" with
                     "import styles from './styles.css" will result style to be
                     an empty object
-  -G, --no-globals  Don't register global function like describe, expect etc
-  -f, --filter      Filter specs to run only those that match the given string
-  -R, --reporter    default, jasmine, list, mini
-      --colors      Force turn on colors in spec output
       --no-colors   Force turn off colors in spec output
+  -G, --no-globals  Don't register global function like describe, expect etc
+  -p, --path        Tests path, default is current working directory
+  -R, --reporter    default, jasmine, list, mini
+  -r, --require     Load module that match the given string
       
       --version     Show version
       --help        Show this help message
+      
+Commands:
+  config  Show the current config
+  list    Show found spec files
   `);
 
   return new Config(options);
@@ -33,23 +39,38 @@ class Config {
    * @param {packageOptions.PackageOptions} opts
    */
   constructor(opts) {
-    /** @type {string | void} */
-    this.filter = opts.filter;
+    const args = opts._.slice();
+
+    if (isCommandExists(opts._[0])) {
+      args.shift();
+      /** @type {string} */
+      this.command = opts._[0];
+    } else {
+      this.command = 'start';
+    }
 
     const colorSupport = process.stdout.isTTY;
     /** @type {boolean} */
     this.colors = opts.colors === undefined ? colorSupport : opts.colors;
 
+    /** @type {string | void} */
+    this.filter = opts.filter;
+
     /** @type {boolean} */
     this.globals = opts.globals === undefined || opts.globals;
 
     /** @type {string[]} */
-    this.ignoreExt = asArray(opts.ignoreExt);
+    this.ignore = opts.ignore ? asArray(opts.ignore) : [
+      '+(node_modules|dist)/**',
+    ];
 
     /** @type {string[]} */
-    this.masks = opts._.length > 0 ? opts._ : [
+    this.ignoreExt = asArray(opts.ignoreExt);
+
+    const mask = args.concat(opts.mask).filter(a => a !== undefined);
+    /** @type {string[]} */
+    this.mask = mask.length > 0 ? asArray(mask) : [
       '**/*{[sS]pec,[T]est}.[jt]s?(x)',
-      '!+(node_modules|dist)/**',
     ];
 
     /** @type {string} */

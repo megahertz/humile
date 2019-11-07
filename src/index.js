@@ -2,13 +2,14 @@
 
 'use strict';
 
-const path = require('path');
+const { runCommand } = require('./commands');
 const Humile = require('./Humile');
 const JasmineFacade = require('./jasmine/JasmineFacade');
 const { createReporter } = require('./reporters');
 const { getConfig } = require('./utils/config');
 const FileFinder = require('./utils/FileFinder');
 const createTranspilerManager = require('./transpilers');
+
 
 module.exports = {
   Humile,
@@ -17,11 +18,11 @@ module.exports = {
 main();
 
 function main() {
-  const config = getConfig();
+  runCommand(createContext());
+}
 
-  const finder = new FileFinder(config.path);
-  const files = finder.find(config.masks)
-    .map(file => path.join(config.path, file));
+function createContext() {
+  const config = getConfig();
 
   const jasmineFacade = new JasmineFacade();
   jasmineFacade.setSpecFilter(config.filter);
@@ -40,9 +41,10 @@ function main() {
     style: config.style,
   }));
 
-  if (require.main === module) {
-    humile.start(files);
-  } else {
-    setTimeout(() => humile.start([]), 10);
-  }
+  return {
+    config,
+    fileFinder: new FileFinder(config.path, config.mask, config.ignore),
+    humile,
+    isRequiredAsLibrary: require.main !== module,
+  };
 }
