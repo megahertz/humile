@@ -49,7 +49,7 @@ class Config {
     this.filter = opts.filter;
 
     /** @type {string[]} */
-    this.ignore = opts.ignore ? asArray(opts.ignore) : [
+    this.ignore = opts.ignore ? asMasks(opts.ignore) : [
       '+(node_modules|dist)/**',
     ];
 
@@ -58,7 +58,7 @@ class Config {
 
     const mask = opts._.concat(opts.mask).filter(a => a !== undefined);
     /** @type {string[]} */
-    this.mask = mask.length > 0 ? asArray(mask) : [
+    this.mask = mask.length > 0 ? asMasks(mask) : [
       '**/*{[sS]pec,[T]est}.[jt]s?(x)',
     ];
 
@@ -124,4 +124,18 @@ function asArray(value) {
   }
 
   return value.filter(item => typeof item === 'string');
+}
+
+/**
+ * @param {any} value
+ * @return {string[]}
+ */
+function asMasks(value) {
+  return asArray(value)
+    .map((mask) => {
+      if (mask.startsWith("'") && mask.endsWith("'")) {
+        return mask.substring(1, mask.length - 1);
+      }
+      return mask;
+    });
 }
