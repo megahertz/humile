@@ -5,7 +5,6 @@ const list = require('./list');
 const start = require('./start');
 
 module.exports = {
-  isCommandExists,
   runCommand,
 };
 
@@ -14,10 +13,6 @@ const COMMANDS = {
   list,
   start,
 };
-
-function isCommandExists(commandName) {
-  return Object.keys(COMMANDS).includes(commandName);
-}
 
 function runCommand(context) {
   const commandName = context.config.command;

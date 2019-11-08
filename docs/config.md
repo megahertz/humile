@@ -65,7 +65,7 @@ Humile tries to read configuration from these sources:
 
 You can run `humile config` to view resulted configuration.
 
-## General
+## General options
 
 #### `mask` {string | string[]}
 
@@ -123,7 +123,7 @@ Default: `undefined`
 
 Filter specs to run only those that match the given string
 
-## Appearance
+## Appearance options
 
 #### colors {boolean}
 
@@ -144,8 +144,7 @@ Which reporter is used to inform you about specs execution
 
 #### style
 
-Here are default options which used to pretty print failed expectation by
-reporter:
+Default:
 
 ```
 {
@@ -171,6 +170,19 @@ reporter:
 }
 ```
 
+Here are default options which used to pretty print failed expectation by
+reporter.
 
+## Misc options
 
+#### showConfig {boolean}
 
+Default: `false`
+
+Show the current config object and exit
+
+#### showSpecs {boolean}
+
+Default: `false`
+
+Show a list of all found spec files and exit
