@@ -10,7 +10,6 @@ const { getConfig } = require('./utils/config');
 const FileFinder = require('./utils/FileFinder');
 const createTranspilerManager = require('./transpilers');
 
-
 module.exports = {
   Humile,
 };
