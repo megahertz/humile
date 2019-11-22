@@ -12,6 +12,6 @@ function start({ config, fileFinder, humile, isRequiredAsLibrary }) {
   if (isRequiredAsLibrary) {
     setTimeout(() => humile.start([]), 10);
   } else {
-    humile.start(fileFinder.findAbsolute());
+    humile.start(fileFinder.find());
   }
 }

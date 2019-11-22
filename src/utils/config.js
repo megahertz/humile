@@ -50,7 +50,8 @@ class Config {
 
     /** @type {string[]} */
     this.ignore = opts.ignore ? asMasks(opts.ignore) : [
-      '+(node_modules|dist)/**',
+      '**/node_modules/**',
+      '**/dist/**',
     ];
 
     /** @type {string[]} */

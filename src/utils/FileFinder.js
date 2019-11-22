@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
 
@@ -16,27 +17,49 @@ class FileFinder {
 
     this.includeMask = masks.include;
     this.excludeMask = masks.exclude;
+
+    this.defaultIncludeMask = '**/*{[sS]pec,[T]est}.[jt]s?(x)';
   }
 
   find() {
     return this.includeMask
       .reduce((res, mask) => {
-        return res.concat(glob.sync(mask, {
-          cwd: this.rootDir,
-          ignore: this.excludeMask,
-        }));
+        return res.concat(
+          this.findFilesByMask(this.rootDir, mask)
+        );
       }, []);
   }
 
-  findAbsolute() {
-    return this.find()
-      .map(file => path.join(this.rootDir, file));
+  /**
+   * @param {string} rootDir
+   * @param {string} mask
+   * @private
+   */
+  findFilesByMask(rootDir, mask = this.defaultIncludeMask) {
+    return glob
+      .sync(mask, {
+        cwd: rootDir,
+        ignore: this.excludeMask,
+      })
+      .map(file => path.resolve(rootDir, file))
+      .reduce((result, file) => {
+        try {
+          if (fs.statSync(file).isDirectory()) {
+            return result.concat(this.findFilesByMask(file));
+          }
+
+          return result.concat([file]);
+        } catch (e) {
+          return result;
+        }
+      }, []);
   }
 
   /**
    * @param {string[]} includeMask
    * @param {string[]} excludeMask
    * @return {{ include: string[], exclude: string[] }}
+   * @private
    */
   normalizeMasks(includeMask, excludeMask) {
     return includeMask.reduce((res, mask) => {
