@@ -14,7 +14,7 @@ as Jasmine, but has many additional features:
  - Zero config
  - No globals (optional)
  - TypeScript ready
- - Customization
+ - Highly customizable
 
 ![Screenshot](docs/img/screenshot-general.png)
 
@@ -46,24 +46,33 @@ easily customized.
 
 Here are the most useful options:
 
-- Test only specified specs
+ - Test only specified specs
 
-    `humile 'mymodule/*.spec.js'`
+   `humile 'mymodule/*.spec.js'`
 
-- Filter by spec description:
+ - Filter by spec description:
 
-    `humile -f MySpecName`
+   `humile -f MySpecName`
 
-- Disable global jasmine functions (describe, expect, it etc):
+ - Disable global jasmine functions (describe, expect, it etc):
 
-    `humile -G`
+   `humile -G`
     
-- Ignore some files:
+ - Ignore some files:
 
-    `humile -i 'build/**'`
+   `humile -i 'build/**'`
     
-- Use another reporter:
+ - Use another reporter:
 
-    `humile -R list`
+   `humile -R list`
 
 Learn more about [configuring humile](docs/config.md).
+
+## Best practices
+
+ - Place specs in __specs__ directory near the actual code
+ - Place helpers into the top __specs__ directory
+ - Try to disable global functions
+ - Use common JavaScript best practices
+ 
+[Read more](docs/best-practices.md).
