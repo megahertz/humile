@@ -11,5 +11,6 @@ function config({ fileFinder, isRequiredAsLibrary }) {
     return;
   }
 
+  // eslint-disable-next-line no-console
   fileFinder.find().forEach(file => console.info(file));
 }

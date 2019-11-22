@@ -3,6 +3,7 @@
 module.exports = lineSpecBuilder;
 
 function lineSpecBuilder() {
+  /* eslint-disable key-spacing, no-multi-spaces */
   const STATUS_MAP = {
     passed:  { char: '.', color: 'green' },
     pending: { char: '*', color: 'cyan' },

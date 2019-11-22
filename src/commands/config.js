@@ -11,5 +11,6 @@ function config({ config: cfg, isRequiredAsLibrary }) {
     return;
   }
 
+  // eslint-disable-next-line no-console
   console.info(cfg);
 }

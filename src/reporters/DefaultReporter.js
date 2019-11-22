@@ -70,6 +70,7 @@ class DefaultReporter {
       printer.batch(builders.total(stats));
       printer.batch(builders.incomplete(result));
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

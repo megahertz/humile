@@ -3,12 +3,11 @@
 module.exports = start;
 
 /**
- * @param {Config} config
  * @param {FileFinder} fileFinder
  * @param {Humile} humile
  * @param {boolean} isRequiredAsLibrary
  */
-function start({ config, fileFinder, humile, isRequiredAsLibrary }) {
+function start({ fileFinder, humile, isRequiredAsLibrary }) {
   if (isRequiredAsLibrary) {
     setTimeout(() => humile.start([]), 10);
   } else {

@@ -1,3 +1,5 @@
+'use strict';
+
 const { describe, expect, it } = require('..');
 const index = require('../index');
 

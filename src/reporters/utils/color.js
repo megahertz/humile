@@ -34,7 +34,7 @@ function color(name, text) {
 
 function bgName(name) {
   if (typeof name !== 'string') {
-    return;
+    return '';
   }
 
   return 'bg' + (name[0] || '').toUpperCase() + name.substr(1);

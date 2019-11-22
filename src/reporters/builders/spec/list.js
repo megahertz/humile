@@ -5,14 +5,14 @@ const { timeMs } = require('../../utils/format');
 module.exports = listSpecBuilder;
 
 function listSpecBuilder({
-  padding = 1,
   specStartTime = {},
   slowMetric = 75,
 } = {}) {
+  /* eslint-disable key-spacing, no-multi-spaces */
   const STATUS_MAP = {
     passed:  { char: '✓', color: 'green', textColor: 'gray' },
-    pending: { char: '⌛', color: 'cyan', textColor: 'cyan' },
-    failed:  { char: '✕', color: 'red', textColor: 'red' },
+    pending: { char: '⌛', color: 'cyan',  textColor: 'cyan' },
+    failed:  { char: '✕', color: 'red',   textColor: 'red' },
   };
 
   return function build(specResult) {
