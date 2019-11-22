@@ -4,11 +4,13 @@ const jasmineRequire = require('jasmine-core');
 const SpecFilter = require('./SpecFilter');
 
 class JasmineFacade {
-  constructor() {
+  constructor(jasmineOptions) {
     this.jasmine = jasmineRequire.core(jasmineRequire);
 
     /** @type {humile.Env} */
     this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
+
+    this.env.configure(jasmineOptions);
 
     this.jasmineInterface = jasmineRequire.interface(this.jasmine, this.env);
     this.registerAliases(this.jasmineInterface);

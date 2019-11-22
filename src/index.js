@@ -23,7 +23,7 @@ function main() {
 function createContext() {
   const config = getConfig();
 
-  const jasmineFacade = new JasmineFacade();
+  const jasmineFacade = new JasmineFacade(config.jasmineOptions);
   jasmineFacade.setSpecFilter(config.filter);
 
   const humile = new Humile(config, jasmineFacade, createTranspilerManager({

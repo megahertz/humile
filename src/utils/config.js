@@ -69,6 +69,10 @@ class Config {
     /** @type {string[]} */
     this.require = asArray(opts.require);
 
+    this.jasmineOptions = {
+      random: Boolean(opts.random),
+    };
+
     // Appearance
 
     const colorSupport = process.stdout.isTTY;

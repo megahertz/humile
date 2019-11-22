@@ -123,6 +123,12 @@ Default: `undefined`
 
 Filter specs to run only those that match the given string
 
+#### random {string}
+
+Default: `false`
+
+Whether to randomize spec execution order
+
 ## Appearance options
 
 #### colors {boolean}
