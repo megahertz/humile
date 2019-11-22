@@ -94,6 +94,7 @@ class Config {
         disabled: opts.get('style.code.disabled', false),
         numberOfLines: opts.get('style.code.numberOfLines', 3),
       },
+      showPending: opts.get('style.showPending', false),
     };
 
     // Misc

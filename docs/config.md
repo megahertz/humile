@@ -142,7 +142,7 @@ Which reporter is used to inform you about specs execution
 - mini (most compact)
 - jasmine (similar to classic Jasmine reporter)
 
-#### style
+#### style {object}
 
 Default:
 
@@ -167,11 +167,13 @@ Default:
     disabled: false,
     numberOfLines: 3,
   },
+
+  // Set to true to show pending spec details
+  showPending: false,
 }
 ```
 
-Here are default options which used to pretty print failed expectation by
-reporter.
+Here are a lot of options which configure appearance of reporters.
 
 ## Misc options
 

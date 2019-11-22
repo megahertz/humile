@@ -100,6 +100,8 @@ class DefaultReporter {
   initBuilders() {
     const padding = this.padding;
 
+    const none = () => [];
+
     const code = codeBuilder({ style: this.style.code });
 
     const diff = diffBuilder({
@@ -107,6 +109,7 @@ class DefaultReporter {
       showColors: this.printer.showColors,
       style: this.style.diff,
     });
+
     const expectation = expectationBuilder({
       code,
       diff,
@@ -122,11 +125,15 @@ class DefaultReporter {
       failedSpec: failedSpecBuilder({ padding, expectation }),
       failedSuite: failedSuiteBuilder({ padding, expectation }),
       incomplete: incompleteBuilder(),
-      none: () => [],
-      pendingSpec: pendingSpecBuilder({ padding }),
+      none,
+      pendingSpec: none,
       spec: specBuilder(),
       total: totalBuilder(),
     };
+
+    if (this.style.showPending) {
+      this.builders.pendingSpec = pendingSpecBuilder({ padding });
+    }
   }
 
   /**
