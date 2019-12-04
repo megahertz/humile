@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const { shortenPath } = require('../../../utils/path');
-const { parseStack } = require('../../utils/stack');
+const { parseStack } = require('../../../utils/stack');
 
 module.exports = expectationBuilder;
 
@@ -11,6 +11,7 @@ const DIFF_MATCHERS = [
   'toBeGreaterThanOrEqual',
   'toBeLessThanOrEqual',
   'toEqual',
+  'toMatchSnapshot',
 ];
 
 function expectationBuilder({
@@ -43,8 +44,10 @@ function expectationBuilder({
         data.push({ text: `${expectedSign} expected`, color: expectedColor });
         data.push({ text: ' )', newLine: true });
 
+        const { expected, actual } = getValues(result, failed);
+
         data.push({
-          ...diff(failed.expected, failed.actual),
+          ...diff(expected, actual),
           indent: padding,
           newLine: true,
         });
@@ -89,6 +92,33 @@ function expectationBuilder({
   function formatPath(stackPath) {
     return projectPath ? shortenPath(projectPath, stackPath) : stackPath;
   }
+}
+
+/**
+ * Extract value stored by custom matchers
+ * @param {jasmine.CustomReporterResult} result
+ * @param {jasmine.FailedExpectation} failedExpectation
+ * @return {{ actual: *, expected: * }}
+ */
+function getValues(result, failedExpectation) {
+  const defaultValues = {
+    actual: failedExpectation.actual,
+    expected: failedExpectation.expected,
+  };
+
+  if (failedExpectation.matcherName === 'toMatchSnapshot') {
+    const msg = failedExpectation.message;
+
+    // eslint-disable-next-line no-unused-vars,prefer-const
+    let [_, snapshotInfo] = msg.match(/snapshot: "(.*)/) || [];
+    const id = snapshotInfo ? snapshotInfo.replace(/".$/, '') : null;
+
+    if (id && result.meta && result.meta[id]) {
+      return result.meta[id];
+    }
+  }
+
+  return defaultValues;
 }
 
 function isDiffRequired(expectation) {

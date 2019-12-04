@@ -1,6 +1,6 @@
 'use strict';
 
-const { describe, it, expect } = require('../../../..');
+const { describe, it, expect } = require('../../../index');
 const StackItem = require('../StackItem');
 
 describe('reporters/utils/stack/StackItem', () => {

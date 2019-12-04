@@ -1,0 +1,21 @@
+exports["toMatchSnapshot passes when a simple value matches"] = `{
+  a: 1,
+}`;
+
+exports["toMatchSnapshot passes when there are few matches"] = `{
+  a: 1,
+}`;
+
+exports["toMatchSnapshot passes when there are few matches #2"] = `{
+  a: 2,
+}`;
+
+exports["toMatchSnapshot passes when there are special chars in snapshot"] = `{
+  a: \`value␊
+  with multiline\`,
+  b: 'value\`with\\\\\`special chars',
+}`;
+
+exports["toMatchSnapshot fails when a snapshot is old"] = `{
+  a: 1575475062129,
+}`;

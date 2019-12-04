@@ -1,19 +1,29 @@
 'use strict';
 
 const jasmineRequire = require('jasmine-core');
+const { registerMatchers } = require('./matchers');
+const MatcherHelper = require('./matchers/MatcherHelper');
 const SpecFilter = require('./SpecFilter');
 
 class JasmineFacade {
   constructor(jasmineOptions) {
     this.jasmine = jasmineRequire.core(jasmineRequire);
 
-    /** @type {humile.Env} */
+    /** @type {jasmine.Env} */
     this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
-
-    this.env.configure(jasmineOptions);
+    this.env.configure({
+      ...jasmineOptions,
+      specFilter: this.specFilterCallback.bind(this),
+    });
 
     this.jasmineInterface = jasmineRequire.interface(this.jasmine, this.env);
+
+    /** @type {SpecFilter} */
+    this.specFilter = null;
+    this.matcherHelper = new MatcherHelper(this.env);
+
     this.registerAliases(this.jasmineInterface);
+    registerMatchers(this.matcherHelper);
   }
 
   /**
@@ -50,22 +60,20 @@ class JasmineFacade {
   }
 
   /**
+   * @private
+   */
+  specFilterCallback(spec) {
+    this.matcherHelper.addSpec(spec);
+    return this.specFilter ? this.specFilter.test(spec.getFullName()) : true;
+  }
+
+  /**
    * Set regexp string as a spec filter.
    * @param {string} filter
    * @returns {void}
    */
   setSpecFilter(filter) {
-    if (!filter) {
-      return;
-    }
-
-    const specFilter = new SpecFilter(filter);
-
-    this.env.configure({
-      specFilter(spec) {
-        return specFilter.test(spec.getFullName());
-      },
-    });
+    this.specFilter = new SpecFilter(filter);
   }
 }
 

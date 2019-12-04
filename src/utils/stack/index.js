@@ -37,10 +37,9 @@ function splitStackText(text) {
 }
 
 function parseItem(text) {
-  const [context, ...sourceParts] = text.split(' ', 2);
+  const [context, ...sourceParts] = text.split(' (', 2);
 
   let [source, line, position] = sourceParts.join(' ')
-    .replace(/^\(/, '')
     .replace(/\)$/, '')
     .split(':');
 

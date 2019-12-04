@@ -11,3 +11,9 @@ describe('named export', () => {
     expect(true).toBe(true);
   });
 });
+
+describe('custom matchers', () => {
+  it('should contain toMatchSnapshot', () => {
+    expect({}).toMatchSnapshot();
+  });
+});

@@ -15,6 +15,7 @@ as Jasmine, but has many additional features:
  - No globals (optional)
  - TypeScript ready
  - Highly customizable
+ - Snapshots
 
 ![Screenshot](docs/img/screenshot-general.png)
 
