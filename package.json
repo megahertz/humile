@@ -8,7 +8,8 @@
     "test": "src/index.js",
     "test:full": "npm test -- --all && npm run lint && tsc --noEmit",
     "lint": "eslint 'src/**/*.js'",
-    "postversion": "npm run test:full && git push && git push --tags",
+    "postversion": "git push && git push --tags",
+    "preversion": "npm run test:full",
     "prepack": "npm run test:full"
   },
   "typings": "src/index.d.ts",
