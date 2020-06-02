@@ -6,5 +6,8 @@
   },
   "include": [
     "./src/__specs__/index.d.test.ts"
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }
