@@ -48,11 +48,11 @@ function parseItem(text) {
   let [source, line, position] = sourceParts.join(' ')
     .replace(/\)$/, '')
     .split(':');
-    
+
   if (windowsPrefix) {
     source = windowsPrefix + source;
   }
-  
+
   source = source.trim() || null;
   line = parseInt(line, 10);
   position = parseInt(position, 10);
