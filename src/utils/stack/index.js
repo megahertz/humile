@@ -39,10 +39,20 @@ function splitStackText(text) {
 function parseItem(text) {
   const [context, ...sourceParts] = text.split(' (', 2);
 
+  let windowsPrefix;
+  if (sourceParts[0] && sourceParts[0][1] === ':') {
+    windowsPrefix = sourceParts[0].slice(0, 2);
+    sourceParts[0] = sourceParts[0].slice(2);
+  }
+
   let [source, line, position] = sourceParts.join(' ')
     .replace(/\)$/, '')
     .split(':');
-
+    
+  if (windowsPrefix) {
+    source = windowsPrefix + source;
+  }
+  
   source = source.trim() || null;
   line = parseInt(line, 10);
   position = parseInt(position, 10);
