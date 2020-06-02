@@ -1,12 +1,13 @@
 'use strict';
 
+const path = require('path');
 const pathUtils = require('../path');
 
 describe('utils/path', () => {
   describe('shortenPath', () => {
     it('should return relative path', () => {
       expect(pathUtils.shortenPath('/project', '/project/src/index.js'))
-        .toBe('src/index.js');
+        .toBe(path.join('src/index.js'));
     });
 
     it('should return absolute path when more then 2 levels down', () => {
