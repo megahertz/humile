@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = failedSuiteBuilder;
 
 function failedSuiteBuilder({ expectation }) {
