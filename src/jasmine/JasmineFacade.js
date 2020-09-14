@@ -8,6 +8,7 @@ const SpecFilter = require('./SpecFilter');
 class JasmineFacade {
   constructor(jasmineOptions) {
     this.jasmine = jasmineRequire.core(jasmineRequire);
+    this.patchSpecConstructor(this.jasmine);
 
     /** @type {jasmine.Env} */
     this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
@@ -24,6 +25,9 @@ class JasmineFacade {
 
     this.registerAliases(this.jasmineInterface);
     registerMatchers(this.matcherHelper);
+
+    /** @type {string | null} */
+    this.processingSuiteFilePath = null;
   }
 
   /**
@@ -74,6 +78,29 @@ class JasmineFacade {
    */
   setSpecFilter(filter) {
     this.specFilter = new SpecFilter(filter);
+  }
+
+  /**
+   * @param {string} specFilePath
+   */
+  beforeSuiteLoad(specFilePath) {
+    this.processingSuiteFilePath = specFilePath;
+  }
+
+  /**
+   * @param {object} jasmine
+   * @private
+   */
+  patchSpecConstructor(jasmine) {
+    const OriginalSpec = jasmine.Spec;
+    const jasmineFacade = this;
+
+    jasmine.Spec = function HumileSpec(...args) {
+      OriginalSpec.apply(this, args);
+      this.result.filePath = jasmineFacade.processingSuiteFilePath;
+    };
+
+    jasmine.Spec.prototype = OriginalSpec.prototype;
   }
 }
 

@@ -66,6 +66,7 @@ class Humile {
    */
   requireSuite(module) {
     try {
+      this.jasmine.beforeSuiteLoad(module);
       this.requireModule(module);
     } catch (e) {
       this.jasmine.addSuiteError(shortenPath(this.config.path, module), e);

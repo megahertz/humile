@@ -58,6 +58,13 @@ function expectationBuilder({
       if (!stack.isEmpty()) {
         data.push({ text: '', newLine: true });
         data.push(stack.print({ indent: padding, formatPath }));
+      } else if (result.filePath) {
+        data.push({ text: '', newLine: true });
+        data.push({
+          text: formatPath(result.filePath),
+          newLine: true,
+          color: 'gray',
+        });
       }
 
       const source = stack.getFirstItem();
