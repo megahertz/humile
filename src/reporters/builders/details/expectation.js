@@ -64,6 +64,7 @@ function expectationBuilder({
           text: formatPath(result.filePath),
           newLine: true,
           color: 'gray',
+          indent: padding,
         });
       }
 
