@@ -101,6 +101,7 @@ class Humile extends EventEmitter {
 
       specDone(result) {
         humile.emit('spec-done', result);
+        humile.currentSpec = null;
       },
 
       suiteStarted(result) {
