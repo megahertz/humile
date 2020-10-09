@@ -1,8 +1,27 @@
-import '@types/jasmine'
+import { EventEmitter } from 'events';
+import 'jasmine'
 
-declare namespace Humile {
-  type HumileExpect = <T>(actual: T) => Humile.HumileMatchers<T>
+declare namespace HumileNs {
+  type HumileExpect = <T>(actual: T) => HumileNs.HumileMatchers<T>
     & typeof expect;
+
+  class Humile extends EventEmitter {
+    /**
+     * Current running spec
+     */
+    readonly currentSpec?: Result;
+
+    on(event: 'spec', listener: (result: Result) => void): this;
+    on(event: 'spec-done', listener: (result: Result) => void): this;
+    on(event: 'suite', listener: (result: Result) => void): this;
+    on(event: 'suite-done', listener: (result: Result) => void): this;
+    on(event: 'start', listener: (result: jasmine.SuiteInfo) => void): this;
+    on(event: 'done', listener: (result: jasmine.RunDetails) => void): this;
+  }
+
+  interface Result extends jasmine.CustomReporterResult {
+    filePath?:  string;
+  }
 
   interface JasmineExport {
     describe: typeof describe;
@@ -28,6 +47,8 @@ declare namespace Humile {
     before: typeof beforeEach;
     after: typeof afterEach;
     test: typeof it;
+
+    humile: Humile;
   }
 
   interface HumileMatchers<T> extends jasmine.Matchers<any> {
@@ -46,8 +67,8 @@ declare namespace Humile {
   }
 }
 
-declare const Humile: Humile.JasmineExport & {
-  default: Humile.JasmineExport;
+declare const Humile: HumileNs.JasmineExport & {
+  default: HumileNs.JasmineExport;
 };
 
 export = Humile;

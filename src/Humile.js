@@ -1,14 +1,21 @@
 'use strict';
 
+const { EventEmitter } = require('events');
 const { shortenPath } = require('./utils/path');
 
-class Humile {
+/**
+ * @typedef { import('@types/jasmine') } jasmine
+ */
+
+class Humile extends EventEmitter {
   /**
    * @param {Config} config
    * @param {JasmineFacade} jasmineFacade
    * @param {TranspilerManager} transpileManager
    */
   constructor(config, jasmineFacade, transpileManager) {
+    super();
+
     this.hasErrors = false;
 
     /** @type {Config} */
@@ -19,10 +26,15 @@ class Humile {
 
     /** @type {TranspilerManager} */
     this.transpileManager = transpileManager;
+
+    /**
+     * @type {object}
+     */
+    this.currentSpec = null;
   }
 
   /**
-   * @param {humile.CustomReporter} reporter
+   * @param {jasmine.CustomReporter} reporter
    */
   addReporter(reporter) {
     this.jasmine.addReporter(reporter);
@@ -34,6 +46,7 @@ class Humile {
    * @returns {object}
    */
   exportGlobals(object) {
+    object.humile = this;
     return this.jasmine.exportGlobals(object);
   }
 
@@ -45,8 +58,8 @@ class Humile {
   }
 
   /**
-   * @private
    * @param {string} module
+   * @private
    */
   requireModule(module) {
     this.transpileManager.checkTranspiler(module);
@@ -61,8 +74,8 @@ class Humile {
   }
 
   /**
-   * @private
    * @param {string} module
+   * @private
    */
   requireSuite(module) {
     try {
@@ -77,10 +90,35 @@ class Humile {
    * @private
    */
   subscribeToJasmineEvents() {
+    const humile = this;
+
     // noinspection JSAnnotator
     this.addReporter({
-      jasmineDone: (result) => {
-        let isPassed = result.overallStatus === 'passed' && !this.hasErrors;
+      specStarted(result) {
+        humile.currentSpec = result;
+        humile.emit('spec', result);
+      },
+
+      specDone(result) {
+        humile.emit('spec-done', result);
+      },
+
+      suiteStarted(result) {
+        humile.emit('suite', result);
+      },
+
+      suiteDone(result) {
+        humile.emit('suite-done', result);
+      },
+
+      jasmineStarted(result) {
+        humile.emit('start', result);
+      },
+
+      jasmineDone(result) {
+        humile.emit('done', result);
+
+        let isPassed = result.overallStatus === 'passed' && !humile.hasErrors;
 
         if (!isPassed && result.incompleteReason === 'No specs found') {
           isPassed = true;

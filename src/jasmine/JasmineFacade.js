@@ -5,6 +5,10 @@ const { registerMatchers } = require('./matchers');
 const MatcherHelper = require('./matchers/MatcherHelper');
 const SpecFilter = require('./SpecFilter');
 
+/**
+ * @typedef { import('@types/jasmine') } jasmine
+ */
+
 class JasmineFacade {
   constructor(jasmineOptions) {
     this.jasmine = jasmineRequire.core(jasmineRequire);
@@ -31,7 +35,7 @@ class JasmineFacade {
   }
 
   /**
-   * @param {humile.CustomReporter} reporter
+   * @param {jasmine.CustomReporter} reporter
    */
   addReporter(reporter) {
     this.env.addReporter(reporter);
