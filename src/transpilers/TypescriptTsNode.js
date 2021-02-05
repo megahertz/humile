@@ -18,7 +18,12 @@ class TypescriptTsNode extends AbstractTranspiler {
   tryInitialize() {
     try {
       // eslint-disable-next-line
-      require('ts-node/register');
+      require('ts-node').register({
+        transpileOnly: true,
+        compilerOptions: {
+          module: 'CommonJS',
+        },
+      });
     } catch (e) {
       return false;
     }
