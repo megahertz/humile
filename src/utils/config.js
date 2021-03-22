@@ -18,6 +18,7 @@ General options:
   -G, --no-globals  Don't register global function like describe, expect etc
   -p, --path        Tests path, default is current working directory
   -r, --require     Load module that match the given string
+      --force-close Forcibly close when the latest spec executed
       
 Appearance options:
       --colors      Force turn on colors in spec output 
@@ -72,6 +73,9 @@ class Config {
     this.jasmineOptions = {
       random: Boolean(opts.random),
     };
+
+    /** @type {boolean} */
+    this.forceClose = opts.forceClose === undefined || Boolean(opts.forceClose);
 
     // Appearance
 

@@ -126,6 +126,10 @@ class Humile extends EventEmitter {
         }
 
         process.exitCode = isPassed ? 0 : 1;
+
+        if (humile.config.forceClose) {
+          process.exit(process.exitCode);
+        }
       },
     });
   }

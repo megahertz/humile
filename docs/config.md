@@ -129,6 +129,12 @@ Default: `false`
 
 Whether to randomize spec execution order
 
+#### forceClose {string}
+
+Default: `true`
+
+Forcibly close when the latest spec executed
+
 ## Appearance options
 
 #### colors {boolean}
