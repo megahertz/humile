@@ -75,7 +75,10 @@ class Config {
 
     // Appearance
 
-    const colorSupport = process.stdout.isTTY;
+    /** @type {NodeJS.WriteStream} */
+    this.stream = process.stderr;
+
+    const colorSupport = this.stream.isTTY;
     /** @type {boolean} */
     this.colors = opts.colors === undefined ? colorSupport : opts.colors;
 
