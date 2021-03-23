@@ -24,8 +24,8 @@ describe('listSpecBuilder', () => {
   it('should build execution time for slow tests', () => {
     const builder = listSpecBuilder({
       specStartTime: {
-        spec1: new Date(new Date() - 200),
-        spec2: new Date(new Date() - 20),
+        spec1: new Date(new Date() - 100),
+        spec2: new Date(new Date() - 15),
       },
     });
 

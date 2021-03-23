@@ -34,6 +34,7 @@ function createContext() {
   humile.addReporter(createReporter(config.reporter, {
     projectPath: config.path,
     showColors: config.colors,
+    slowMetric: config.slowMetric,
     stream: config.stream,
     style: config.style,
   }));

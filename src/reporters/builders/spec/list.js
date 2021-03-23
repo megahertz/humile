@@ -6,7 +6,7 @@ module.exports = listSpecBuilder;
 
 function listSpecBuilder({
   specStartTime = {},
-  slowMetric = 75,
+  slowMetric = 40,
 } = {}) {
   /* eslint-disable key-spacing, no-multi-spaces */
   const STATUS_MAP = {
@@ -47,18 +47,18 @@ function listSpecBuilder({
 }
 
 function buildExecutionTime(startTime, slowMetric) {
-  const time = new Date() - startTime;
+  const duration = new Date() - startTime;
 
   let color;
-  if (time > slowMetric) {
+  if (duration > slowMetric) {
     color = 'red';
-  } else if (time > slowMetric / 2) {
+  } else if (duration > slowMetric / 2) {
     color = 'yellow';
-  } else if (time > slowMetric / 4) {
+  } else if (duration > slowMetric / 4) {
     color = 'gray';
   } else {
     return null;
   }
 
-  return { text: ` (${timeMs(time)})`, color };
+  return { text: ` (${timeMs(duration)})`, color };
 }

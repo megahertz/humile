@@ -1,6 +1,6 @@
 'use strict';
 
-const specBuilder = require('./builders/spec/list');
+const listSpecBuilder = require('./builders/spec/list');
 const suiteBuilder = require('./builders/suite');
 const DefaultReporter = require('./DefaultReporter');
 
@@ -33,7 +33,10 @@ class ListReporter extends DefaultReporter {
   initBuilders() {
     super.initBuilders();
     this.specStartTime = {};
-    this.builders.spec = specBuilder({ specStartTime: this.specStartTime });
+    this.builders.spec = listSpecBuilder({
+      slowMetric: this.slowMetric,
+      specStartTime: this.specStartTime,
+    });
     this.builders.suite = suiteBuilder();
   }
 

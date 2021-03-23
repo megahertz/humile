@@ -154,6 +154,13 @@ Which reporter is used to inform you about specs execution
 - mini (most compact)
 - jasmine (similar to classic Jasmine reporter)
 
+#### slowMetric {boolean}
+
+Default: `40`
+
+When list reporter is used, mark tests which executes longer than
+slowMetric / 4 ms
+
 #### style {object}
 
 Default:

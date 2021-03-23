@@ -108,6 +108,9 @@ class Config {
       showPending: opts.get('style.showPending', false),
     };
 
+    /** @type {number} */
+    this.slowMetric = Number.parseInt(opts.slowMetric, 10) || 40;
+
     // Misc
 
     /** @type {string} */
