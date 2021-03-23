@@ -17,6 +17,12 @@ as Jasmine, but has many additional features:
  - Highly customizable
  - Snapshots
 
+## Why don't just use jest?
+
+Jest is awesome, but it's pretty slow for fast tests. When you write a lot of
+tiny test, jasmine is able to execute more than 1000 tests per second. Also,
+jest could be too large with its heavy dependencies for a tiny project.
+
 ![Screenshot](docs/img/screenshot-general.png)
 
 ## Usage
