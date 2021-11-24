@@ -15,7 +15,8 @@ as Jasmine, but has many additional features:
  - No globals (optional)
  - TypeScript ready
  - Highly customizable
- - Snapshots
+ - toMatchObject, toMatchSnapshot
+
 
 ## Why don't just use jest?
 

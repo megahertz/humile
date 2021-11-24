@@ -25,7 +25,7 @@ class JasmineFacade {
 
     /** @type {SpecFilter} */
     this.specFilter = null;
-    this.matcherHelper = new MatcherHelper(this.env);
+    this.matcherHelper = new MatcherHelper(this.jasmine, this.env);
 
     this.registerAliases(this.jasmineInterface);
     registerMatchers(this.matcherHelper);
