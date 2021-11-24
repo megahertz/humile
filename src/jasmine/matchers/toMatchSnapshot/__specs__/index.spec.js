@@ -5,7 +5,7 @@ const MatcherHelper = require('../../MatcherHelper');
 const { toMatchSnapshotFactory } = require('../index');
 
 describe('toMatchSnapshot', () => {
-  const helper = new MatcherHelper(jasmine.getEnv());
+  const helper = new MatcherHelper(jasmine, jasmine.getEnv());
   const matcherUtil = jasmine.matchersUtil;
   const getSpecFileCb = () => __filename;
 

@@ -5,15 +5,19 @@
  */
 class MatcherHelper {
   /**
+   * @param {jasmine} jasmine
    * @param {jasmine.Env} env
    */
-  constructor(env) {
+  constructor(jasmine, env) {
+    /**
+     * @type {jasmine}
+     */
+    this.jasmine = jasmine;
+
     /**
      * @type {jasmine.Env}
-     * @private
      */
     this.env = env;
-
     /**
      * @type {jasmine.CustomReporterResult}
      * @private

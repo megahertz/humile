@@ -53,6 +53,15 @@ declare namespace HumileNs {
 
   interface HumileMatchers<T> extends jasmine.Matchers<any> {
     /**
+     * Expect the actual value to match the expected, like
+     * toEqual(jasmine.objectContaining(expected))
+     * @param expected Expected value.
+     * @example
+     * expect(bigObject).toMatchObject({ "foo": ['bar', 'baz'] });
+     */
+    toMatchObject(expected: object): boolean;
+
+    /**
      * Expect the actual value to match snapshot
      *
      * @example
