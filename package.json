@@ -40,10 +40,10 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@types/jasmine": "^3.6.7",
+    "@types/jasmine": "^3.10.2",
     "concordance": "^4.0.0",
-    "glob": "^7.1.6",
-    "jasmine-core": "^3.6.0",
+    "glob": "^7.2.0",
+    "jasmine-core": "^3.10.1",
     "package-options": "^0.1.4"
   }
 }
