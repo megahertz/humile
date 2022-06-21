@@ -1,7 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../../../../index');
-const pendingSpecBuilder       = require('../pendingSpec');
+const pendingSpecBuilder = require('../pendingSpec');
 
 describe('pendingSpecBuilder', () => {
   it('should build pending spec data', () => {

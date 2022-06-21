@@ -1,7 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../../../../index');
-const lineSpecBuilder          = require('../line');
+const lineSpecBuilder = require('../line');
 
 describe('lineSpecBuilder', () => {
   const builder = lineSpecBuilder();

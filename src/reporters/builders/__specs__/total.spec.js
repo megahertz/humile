@@ -1,7 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../../../index');
-const totalBuilder             = require('../total');
+const totalBuilder = require('../total');
 
 describe('totalBuilder', () => {
   it('should build success total', () => {

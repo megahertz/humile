@@ -41,7 +41,7 @@ class TranspilerManager {
     if (availableTranspilers.length === 1) {
       const transpiler = availableTranspilers[0];
       throw new Error(
-        `${message}You can install ${transpiler.getHelp()}`
+        `${message}You can install ${transpiler.getHelp()}`,
       );
     }
 

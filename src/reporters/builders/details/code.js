@@ -17,7 +17,7 @@ function codeBuilder({ style = {} } = {}) {
     const { counterSize, currentOffset, from, to } = getCodeBlockPosition(
       lineNumber,
       lines.length,
-      numberOfLines
+      numberOfLines,
     );
 
     for (let i = from; i <= to; i++) {

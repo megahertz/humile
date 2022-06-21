@@ -33,7 +33,7 @@ function listSpecBuilder({
         color: statusData.color,
         indent: (specResult.suiteLevel || 0) + 1,
       },
-      { text: ' ' + specResult.description, color: statusData.textColor }
+      { text: ' ' + specResult.description, color: statusData.textColor },
     );
 
     if (specStartTime && specStartTime[specResult.id]) {

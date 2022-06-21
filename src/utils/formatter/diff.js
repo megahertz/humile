@@ -28,7 +28,7 @@ function diffFactory({
     let diff = concordance.diffDescriptors(
       concordance.describe(actual, options),
       concordance.describe(expected, options),
-      options
+      options,
     );
 
     if (showColors) {

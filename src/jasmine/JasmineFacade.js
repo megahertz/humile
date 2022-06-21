@@ -63,8 +63,8 @@ class JasmineFacade {
 
   registerAliases(jasmineInterface) {
     jasmineInterface.before = jasmineInterface.beforeAll;
-    jasmineInterface.after  = jasmineInterface.afterAll;
-    jasmineInterface.test   = jasmineInterface.it;
+    jasmineInterface.after = jasmineInterface.afterAll;
+    jasmineInterface.test = jasmineInterface.it;
   }
 
   /**

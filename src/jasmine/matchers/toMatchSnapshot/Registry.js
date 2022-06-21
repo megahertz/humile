@@ -66,7 +66,7 @@ class Registry {
     return path.join(
       path.dirname(specPath),
       '__snapshots__',
-      path.basename(specPath) + '.snap'
+      path.basename(specPath) + '.snap',
     );
   }
 

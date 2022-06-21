@@ -25,7 +25,7 @@ class FileFinder {
     return this.includeMask
       .reduce((res, mask) => {
         return res.concat(
-          this.findFilesByMask(this.rootDir, mask)
+          this.findFilesByMask(this.rootDir, mask),
         );
       }, []);
   }

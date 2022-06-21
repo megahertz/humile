@@ -1,7 +1,7 @@
 'use strict';
 
 const { describe, it, expect } = require('../../../index');
-const suiteBuilder             = require('../suite');
+const suiteBuilder = require('../suite');
 
 describe('suiteBuilder', () => {
   it('should build first-level suite', () => {

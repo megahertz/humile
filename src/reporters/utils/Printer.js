@@ -87,6 +87,6 @@ module.exports = Printer;
 function wordWrap(text, width) {
   return text.replace(
     new RegExp(`(?![^\\n]{1,${width}}$)([^\\n]{1,${width}})\\s`, 'g'),
-    '$1\n'
+    '$1\n',
   );
 }
