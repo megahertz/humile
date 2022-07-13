@@ -6,10 +6,11 @@ const { toMatchSnapshotFactory } = require('../index');
 
 describe('toMatchSnapshot', () => {
   const helper = new MatcherHelper(jasmine, jasmine.getEnv());
-  const matcherUtil = jasmine.matchersUtil;
   const getSpecFileCb = () => __filename;
 
-  const matcher = toMatchSnapshotFactory(helper, getSpecFileCb)(matcherUtil);
+  const matcher = toMatchSnapshotFactory(helper, getSpecFileCb)(
+    new jasmine.MatchersUtil(),
+  );
 
   it('passes when a simple value matches', () => {
     expect(matcher.compare({ a: 1 }).pass).toBe(true);

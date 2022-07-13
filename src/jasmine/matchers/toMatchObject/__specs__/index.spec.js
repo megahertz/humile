@@ -6,9 +6,8 @@ const { toMatchObjectFactory } = require('../index');
 
 describe('toMatchObject', () => {
   const helper = new MatcherHelper(jasmine, jasmine.getEnv());
-  const matcherUtil = jasmine.matchersUtil;
 
-  const matcher = toMatchObjectFactory(helper)(matcherUtil);
+  const matcher = toMatchObjectFactory(helper)(new jasmine.MatchersUtil());
 
   it('passes when a simple value matches', () => {
     expect(matcher.compare({ a: 1 }, { a: 1 }).pass).toBe(true);
@@ -21,6 +20,9 @@ describe('toMatchObject', () => {
   });
 
   it('fails when not match', () => {
-    expect(matcher.compare({ a: 1 }, { a: 2 }).pass).toBe(false);
+    expect(matcher.compare({ a: 1 }, { a: 2 })).toMatchObject({
+      message: '\'{"a":1}\' doesn\'t match \'{"a":2}\'',
+      pass: false,
+    });
   });
 });

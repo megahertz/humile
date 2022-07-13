@@ -8,22 +8,26 @@ module.exports = {
  * @param {MatcherHelper} helper
  */
 function toMatchObjectFactory(helper) {
-  return function toMatchObject(util) {
+  return function toMatchObject(matchersUtil) {
     return {
       compare(actualValue, expectedValue) {
-        const expected = helper.jasmine.objectContaining(expectedValue);
+        let expected = helper.jasmine.objectContaining(expectedValue);
 
-        const diffBuilder = helper.jasmine.DiffBuilder({
-          prettyPrinter: util.pp,
-        });
+        if (Array.isArray(expectedValue)) {
+          expected = helper.jasmine.arrayContaining(expectedValue);
+        }
 
-        const pass = util.equals(actualValue, expected, diffBuilder);
+        const pass = matchersUtil.equals(actualValue, expected);
 
         return {
           pass,
-          message: diffBuilder.getMessage(),
+          message: `${pp(actualValue)} doesn't match ${pp(expectedValue)}`,
         };
       },
     };
   };
+}
+
+function pp(value) {
+  return `'${JSON.stringify(value)}'`;
 }

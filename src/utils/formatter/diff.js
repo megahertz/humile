@@ -24,10 +24,15 @@ function diffFactory({
   return function build(expected, actual) {
     const options = { maxDepth, theme, invert: expectedFirst };
 
+    let normalizedExpected = expected;
+    if (expected?.sample && expected?.asymmetricMatch) {
+      normalizedExpected = expected.sample;
+    }
+
     /** @type {string} */
     let diff = concordance.diffDescriptors(
       concordance.describe(actual, options),
-      concordance.describe(expected, options),
+      concordance.describe(normalizedExpected, options),
       options,
     );
 

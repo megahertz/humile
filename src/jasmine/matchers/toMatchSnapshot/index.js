@@ -15,12 +15,12 @@ module.exports = {
 function toMatchSnapshotFactory(helper, getSpecFileCb = null) {
   const registry = new Registry(getSpecFileCb || getSpecFilePath);
 
-  return function toMatchSnapshot(util, customEqualityTesters = []) {
+  return function toMatchSnapshot(matchersUtil) {
     return {
       compare(actualValue) {
         const expectationId = helper.makeExpectationId();
         const { actual, snapshot } = fetchSnapshot(actualValue, expectationId);
-        const pass = util.equals(actual, snapshot, customEqualityTesters);
+        const pass = matchersUtil.equals(actual, snapshot);
 
         if (!pass) {
           // Jasmine passes only original values to reporter, so there is no
