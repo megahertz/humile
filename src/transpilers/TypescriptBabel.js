@@ -41,8 +41,7 @@ class TypescriptBabel extends AbstractTranspiler {
 
   tryInitialize() {
     try {
-      // eslint-disable-next-line
-      const register = require('@babel/register');
+      const register = this.safeRequire('@babel/register');
       register({ extensions: ['.ts', '.tsx'] });
       return true;
     } catch (e) {

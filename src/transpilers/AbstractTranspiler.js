@@ -42,6 +42,19 @@ class AbstractTranspiler {
   tryInitialize() {
     throw new Error('Not implemented');
   }
+
+  /**
+   * Return false when can't require
+   * @param {string} moduleName
+   * @return {*|boolean}
+   */
+  safeRequire(moduleName) {
+    try {
+      return require(moduleName); // eslint-disable-line
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 module.exports = AbstractTranspiler;

@@ -16,14 +16,7 @@ class TypescriptSwc extends AbstractTranspiler {
   }
 
   tryInitialize() {
-    try {
-      // eslint-disable-next-line
-      require('@swc-node/register');
-    } catch (e) {
-      return false;
-    }
-
-    return true;
+    return Boolean(this.safeRequire('@swc-node/register'));
   }
 }
 

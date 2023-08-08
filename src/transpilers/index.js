@@ -2,6 +2,7 @@
 
 const NoParse = require('./NoParse');
 const TypescriptBabel = require('./TypescriptBabel');
+const TypescriptEsbuild = require('./TypescriptEsbuild');
 const TranspilerManager = require('./TranspilerManager');
 const TypescriptSwc = require('./TypescriptSwc');
 const TypescriptTsNode = require('./TypescriptTsNode');
@@ -12,6 +13,7 @@ function createTranspilerManager({ noParse }) {
   const manager = new TranspilerManager();
   const noParseTranspiler = new NoParse(noParse);
 
+  manager.addTranspiler(new TypescriptEsbuild());
   manager.addTranspiler(new TypescriptSwc());
   manager.addTranspiler(new TypescriptTsNode());
   manager.addTranspiler(new TypescriptBabel());
