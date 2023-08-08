@@ -12,27 +12,11 @@ class TypescriptEsbuild extends AbstractTranspiler {
   }
 
   getInstallGuide() {
-    return ['Run: npm install -D esbuild-register'];
+    return ['Run: npm install -D esbuild esbuild-register'];
   }
 
   tryInitialize() {
-    const esBuildRegister = this.safeRequire('esbuild-register/dist/node');
-    if (!esBuildRegister || !esBuildRegister.register) {
-      return false;
-    }
-
-    const options = {};
-    const tscPlugin = this.safeRequire('esbuild-plugin-tsc');
-    if (tscPlugin) {
-      options.plugins = [tscPlugin()];
-    }
-
-    try {
-      esBuildRegister.register(options);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return Boolean(this.safeRequire('esbuild-register'));
   }
 }
 

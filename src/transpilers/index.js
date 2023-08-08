@@ -13,8 +13,8 @@ function createTranspilerManager({ noParse }) {
   const manager = new TranspilerManager();
   const noParseTranspiler = new NoParse(noParse);
 
-  manager.addTranspiler(new TypescriptEsbuild());
   manager.addTranspiler(new TypescriptSwc());
+  manager.addTranspiler(new TypescriptEsbuild());
   manager.addTranspiler(new TypescriptTsNode());
   manager.addTranspiler(new TypescriptBabel());
   manager.addTranspiler(noParseTranspiler);
