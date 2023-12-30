@@ -19,7 +19,7 @@ class TranspilerManager {
     const ext = path.extname(fileName);
 
     // noinspection JSDeprecatedSymbols
-    if (!ext || require.extensions[ext]) {
+    if (!ext || require.extensions[ext] || ext === '.cjs') {
       return;
     }
 
