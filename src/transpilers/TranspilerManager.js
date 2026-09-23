@@ -3,7 +3,12 @@
 const path = require('path');
 
 class TranspilerManager {
-  constructor() {
+  /**
+   * @param {string} [forcedName] Use only the transpiler with this name
+   */
+  constructor(forcedName) {
+    this.forcedName = forcedName;
+
     /** @type {AbstractTranspiler[]} */
     this.transpilers = [];
   }
@@ -59,6 +64,10 @@ class TranspilerManager {
    */
   findTranspilersForExtension(ext) {
     return this.transpilers.filter((transpiler) => {
+      if (this.forcedName && transpiler.getDisplayName() !== this.forcedName) {
+        return false;
+      }
+
       return transpiler.getExtensions().includes(ext);
     });
   }

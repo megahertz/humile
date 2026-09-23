@@ -111,6 +111,16 @@ Example:
 
 `humile --require @babel/register`
 
+#### `transpiler` {string}
+
+Default: first available of `native` (Node.js type stripping), `swc`,
+`esbuild`, `ts-node`, `@babel/register`
+
+Force a TypeScript transpiler. `native` uses Node.js type stripping, so ESM
+specs with `import.meta` work. Top-level `await` in specs isn't supported.
+
+`humile --transpiler native`
+
 #### path {string}
 
 Default: `process.cwd()`

@@ -18,6 +18,8 @@ General options:
   -G, --no-globals  Don't register global function like describe, expect etc
   -p, --path        Tests path, default is current working directory
   -r, --require     Load module that match the given string
+  -t, --transpiler  Force a transpiler: native, swc, esbuild, ts-node,
+                    @babel/register
       --force-close Forcibly close when the latest spec executed
       
 Appearance options:
@@ -69,6 +71,9 @@ class Config {
 
     /** @type {string[]} */
     this.require = asArray(opts.require);
+
+    /** @type {string | void} */
+    this.transpiler = opts.transpiler;
 
     this.jasmineOptions = {
       random: Boolean(opts.random),
