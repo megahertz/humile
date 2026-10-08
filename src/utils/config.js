@@ -23,8 +23,8 @@ General options:
       --force-close Forcibly close when the latest spec executed
       
 Appearance options:
-      --colors      Force turn on colors in spec output 
-      --no-colors   Force turn off colors in spec output
+      --colors      Force turn on colors in spec output (or FORCE_COLOR=1)
+      --no-colors   Force turn off colors in spec output (or NO_COLOR=1)
   -R, --reporter    default, jasmine, list, mini      
       
 Misc options:    
@@ -87,9 +87,10 @@ class Config {
     /** @type {NodeJS.WriteStream} */
     this.stream = process.stderr;
 
-    const colorSupport = this.stream.isTTY;
     /** @type {boolean} */
-    this.colors = opts.colors === undefined ? colorSupport : opts.colors;
+    this.colors = opts.colors === undefined
+      ? detectColors(this.stream)
+      : opts.colors;
 
     /** @type {string} */
     this.reporter = opts.reporter || 'default';
@@ -129,6 +130,24 @@ class Config {
       this.command = 'list';
     }
   }
+}
+
+/**
+ * Precedence: FORCE_COLOR, NO_COLOR, then TTY detection
+ * @param {NodeJS.WriteStream} stream
+ * @param {NodeJS.ProcessEnv} [env]
+ * @return {boolean}
+ */
+function detectColors(stream, env = process.env) {
+  if (env.FORCE_COLOR !== undefined) {
+    return !['0', 'false'].includes(env.FORCE_COLOR.toLowerCase());
+  }
+
+  if (env.NO_COLOR) {
+    return false;
+  }
+
+  return Boolean(stream.isTTY);
 }
 
 /**

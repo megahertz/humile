@@ -149,9 +149,14 @@ Forcibly close when the latest spec executed
 
 #### colors {boolean}
 
-Default: `process.stdout.isTTY`
+Default: `process.stderr.isTTY`
 
-Turn on colors in spec output
+When not set explicitly, the `FORCE_COLOR` and `NO_COLOR` environment variables
+are respected:
+
+- `FORCE_COLOR` — enables colors; `FORCE_COLOR=0` or `FORCE_COLOR=false`
+  disables them. Takes precedence over `NO_COLOR`
+- `NO_COLOR` — any non-empty value disables colors
 
 #### reporter {string}
 
