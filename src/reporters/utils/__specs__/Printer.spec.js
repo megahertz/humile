@@ -20,6 +20,21 @@ describe('reporters/utils/Printer', () => {
       expect(printer.stream.content).toEqual(color.red + 'test' + color.unset);
     });
 
+    it('should write color string to non-TTY stream', () => {
+      const printer = createPrinter();
+      printer.stream.isTTY = false;
+      printer.write('test', { color: 'red' });
+
+      expect(printer.stream.content).toEqual(color.red + 'test' + color.unset);
+    });
+
+    it('should write plain string when colors are off', () => {
+      const printer = new Printer({ stream: new StreamMock() });
+      printer.write('test', { color: 'red' });
+
+      expect(printer.stream.content).toEqual('test');
+    });
+
     it('should word wrap', () => {
       const printer = createPrinter();
       printer.write('9ch. line', { indent: 1, wordWrap: true, newLine: true });
@@ -78,6 +93,7 @@ class StreamMock {
 
 function createPrinter() {
   return new Printer({
+    showColors: true,
     stream: new StreamMock(),
   });
 }

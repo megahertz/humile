@@ -17,11 +17,9 @@ class Printer {
     /** @type {WritableStream} */
     this.stream = null;
 
-    this.showColors = true;
+    this.showColors = false;
 
     Object.assign(this, options);
-
-    this.showColors = this.showColors && this.stream && this.stream.isTTY;
   }
 
   /**
